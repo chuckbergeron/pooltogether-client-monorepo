@@ -117,21 +117,6 @@ const getNetworkTransports = (
   return transports
 }
 
-/**
- * Returns messages for localization through next-intl
- * @param locale the locale to fetch messages for
- * @returns
- */
-export const getMessages = async (locale?: string) => {
-  const defaultMessages: IntlMessages = (await import(`../messages/en.json`)).default
-
-  if (!locale) return defaultMessages
-
-  const localeMessages: IntlMessages = (await import(`../messages/${locale}.json`)).default
-  const messages = deepmerge<IntlMessages>(defaultMessages, localeMessages)
-
-  return messages
-}
 
 /**
  * Tracks deposit and its respective wallet ID on the wallet stats API

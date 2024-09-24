@@ -8,7 +8,6 @@ import { toast } from '@shared/ui'
 import { getDiscordInvite } from '@shared/utilities'
 import classNames from 'classnames'
 import * as fathom from 'fathom-client'
-import { useTranslations } from 'next-intl'
 import Head from 'next/head'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
@@ -38,8 +37,6 @@ export const Layout = (props: LayoutProps) => {
 
   const router = useRouter()
 
-  const t_common = useTranslations('Common')
-  const t_nav = useTranslations('Navigation')
 
   const { vaults } = useSelectedVaults()
   const { address: userAddress } = useAccount()
@@ -87,10 +84,10 @@ export const Layout = (props: LayoutProps) => {
   }, [searchParams])
 
   const pageTitles: { [href: string]: string } = {
-    account: t_nav('account'),
-    prizes: t_nav('prizes'),
-    vaults: t_nav('vaults'),
-    vault: t_nav('vault')
+    account: 'Account',
+    prizes: 'Prizes',
+    vaults: 'Vaults',
+    vault: 'Vault'
   }
 
   const pageTitle = overrides?.pageTitle ?? pageTitles[router.pathname.split('/')[1]]
@@ -146,7 +143,7 @@ export const Layout = (props: LayoutProps) => {
 
       <CaptchaModal
         hCaptchaSiteKey='11cdabde-af7e-42cb-ba97-76e35b7f7c39'
-        header={t_common('joinDiscord')}
+        header={'Join Discord'}
         onVerify={getDiscordInvite}
       />
 

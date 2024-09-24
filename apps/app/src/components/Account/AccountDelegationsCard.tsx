@@ -1,6 +1,5 @@
 import { Vault } from '@generationsoftware/hyperstructure-client-js'
 import { VaultBadge, WinChanceTooltip } from '@shared/react-components'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { Address } from 'viem'
@@ -15,9 +14,6 @@ interface AccountDelegationsCardProps {
 
 export const AccountDelegationsCard = (props: AccountDelegationsCardProps) => {
   const { vault, address } = props
-
-  const t_vault = useTranslations('Vault')
-  const t_tooltips = useTranslations('Tooltips')
 
   const { address: _userAddress } = useAccount()
   const userAddress = address ?? _userAddress
@@ -35,7 +31,7 @@ export const AccountDelegationsCard = (props: AccountDelegationsCardProps) => {
       </span>
       <div className='w-full flex flex-col gap-1 px-3'>
         <div className='flex items-center justify-between'>
-          <span className='text-sm text-pt-purple-200'>{t_vault('headers.delegatedAmount')}</span>
+          <span className='text-sm text-pt-purple-200'>Delegated Amount</span>
           <AccountVaultDelegationAmount
             vault={vault}
             address={userAddress}
@@ -44,8 +40,8 @@ export const AccountDelegationsCard = (props: AccountDelegationsCardProps) => {
         </div>
         <div className='flex items-center justify-between'>
           <span className='flex gap-1 items-center text-sm text-pt-purple-200'>
-            {isExternalUser ? t_vault('headers.winChance') : t_vault('headers.yourWinChance')}
-            <WinChanceTooltip intl={{ text: t_tooltips('winChance') }} className='text-xs' />
+            {isExternalUser ? 'Win chance' : 'Your win chance'}
+            <WinChanceTooltip intl={{ text: "Your chance to win a prize in any given draw" }} className='text-xs' />
           </span>
           <span className='text-sm'>
             <AccountVaultDelegationOdds vault={vault} address={userAddress} />

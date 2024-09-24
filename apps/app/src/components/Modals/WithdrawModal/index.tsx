@@ -46,8 +46,6 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
     onSuccessfulWithdrawalWithZap
   } = props
 
-  const t_toasts = useTranslations('Toasts.transactions')
-
   const addRecentTransaction = useAddRecentTransaction()
 
   const { vault } = useSelectedVault()
@@ -73,7 +71,7 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
         txHash: withdrawTxHash,
         addRecentTransaction,
         refetchUserBalances,
-        intl: t_toasts
+        intl: undefined
       })
     }
   }

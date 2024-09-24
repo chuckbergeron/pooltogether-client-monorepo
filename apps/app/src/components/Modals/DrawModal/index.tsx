@@ -2,7 +2,6 @@ import { usePrizeDrawWinners } from '@generationsoftware/hyperstructure-react-ho
 import { MODAL_KEYS, useIsModalOpen, useScreenSize } from '@shared/generic-react-hooks'
 import { Button, Modal } from '@shared/ui'
 import { useAtomValue } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { drawIdAtom } from '@components/Prizes/PrizePoolWinners'
 import { useSelectedPrizePool } from '@hooks/useSelectedPrizePool'
 import { MainView } from './Views/MainView'
@@ -14,7 +13,6 @@ export interface DrawModalProps {
 export const DrawModal = (props: DrawModalProps) => {
   const { onClose } = props
 
-  const t_common = useTranslations('Common')
 
   const { selectedPrizePool } = useSelectedPrizePool()
   const { data: draws } = usePrizeDrawWinners(selectedPrizePool!)
@@ -36,7 +34,7 @@ export const DrawModal = (props: DrawModalProps) => {
         bodyContent={<MainView draw={selectedDraw} prizePool={selectedPrizePool} />}
         footerContent={
           <Button onClick={handleClose} fullSized={true}>
-            {t_common('close')}
+            Close
           </Button>
         }
         onClose={handleClose}

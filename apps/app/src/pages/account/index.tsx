@@ -1,4 +1,3 @@
-import { SECONDS_PER_DAY } from '@shared/utilities'
 import { GetStaticProps } from 'next'
 import { getMessages } from 'src/utils'
 import { AccountDelegations } from '@components/Account/AccountDelegations'
@@ -18,7 +17,6 @@ export const getStaticProps: GetStaticProps<AccountPageProps> = async ({ locale 
 
   return {
     props: { messages },
-    revalidate: SECONDS_PER_DAY
   }
 }
 

@@ -4,14 +4,11 @@ import { Spinner } from '@shared/ui'
 import { isTestnet, lower, NETWORK, sToMs } from '@shared/utilities'
 import defaultVaultList from '@vaultLists/default'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useEffect, useMemo, useState } from 'react'
 import { Address } from 'viem'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 
 export const HomeHeader = () => {
-  const t = useTranslations('Home')
-
   const prizePools = useSupportedPrizePools()
   const prizePoolsArray = Object.values(prizePools)
 
@@ -40,12 +37,11 @@ export const HomeHeader = () => {
             'md:w-full md:text-4xl lg:text-5xl'
           )}
         >
-          {t.rich('winUpTo', {
-            token: () => <TokenFlipper className='my-auto mx-3' />,
-            amount: () => <TotalPrizeValue />
-          })}
+          Win up to
+          <TokenFlipper className='my-auto mx-3' />
+          <TotalPrizeValue />
         </span>
-        <span className='text-center text-pt-purple-100'>{t('withdrawAnyTime')}</span>
+        <span className='text-center text-pt-purple-100'>You can withdraw your full deposit at any time</span>
       </div>
     </>
   )

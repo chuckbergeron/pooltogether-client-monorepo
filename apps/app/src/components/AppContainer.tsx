@@ -1,13 +1,11 @@
 import { useSelectedLanguage } from '@shared/generic-react-hooks'
 import { Flowbite, Toaster } from '@shared/ui'
-import { NextIntlClientProvider } from 'next-intl'
 import { AppProps } from 'next/app'
 import { ReactNode, useEffect, useState } from 'react'
 import { CustomAppProps } from '@pages/_app'
 import { AccountFrame } from './Frames/AccountFrame'
 import { DefaultFrame } from './Frames/DefaultFrame'
 import { VaultFrame } from './Frames/VaultFrame'
-import { Highlight } from './Highlight'
 
 export const AppContainer = (props: AppProps & CustomAppProps) => {
   const { Component, pageProps, serverProps, router } = props
@@ -46,14 +44,11 @@ export const AppContainer = (props: AppProps & CustomAppProps) => {
 
   return (
     <>
-      <Highlight />
       {pageFrame ?? <DefaultFrame />}
       <Flowbite>
         <Toaster expand={false} />
-        <NextIntlClientProvider locale={locale} messages={pageProps.messages}>
-          <div id='modal-root' />
-          {isReady && <Component {...pageProps} />}
-        </NextIntlClientProvider>
+        <div id='modal-root' />
+        {isReady && <Component {...pageProps} />}
       </Flowbite>
     </>
   )

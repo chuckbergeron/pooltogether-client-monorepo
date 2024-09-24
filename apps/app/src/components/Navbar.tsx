@@ -4,7 +4,6 @@ import { MODAL_KEYS, useIsModalOpen } from '@shared/generic-react-hooks'
 import { Logo } from '@shared/ui'
 import classNames from 'classnames'
 import { Navbar as FlowbiteNavbar } from 'flowbite-react'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactNode } from 'react'
@@ -15,14 +14,13 @@ interface NavbarLink {
 }
 
 export const Navbar = () => {
-  const t_nav = useTranslations('Navigation')
 
   const { setIsModalOpen: setIsSettingsModalOpen } = useIsModalOpen(MODAL_KEYS.settings)
 
   const navLinks: NavbarLink[] = [
-    { href: '/prizes', name: t_nav('prizes') },
-    { href: '/vaults', name: t_nav('vaults') },
-    { href: '/account', name: t_nav('account') }
+    { href: '/prizes', name: 'Prizes' },
+    { href: '/vaults', name: 'Vaults' },
+    { href: '/account', name: 'Account' }
   ]
 
   return (
@@ -60,7 +58,7 @@ export const Navbar = () => {
         </div>
       </FlowbiteNavbar>
       <MobileNavbar className='z-50'>
-        <NavbarLinks links={[{ href: '/', name: t_nav('home') }, ...navLinks]} />
+        <NavbarLinks links={[{ href: '/', name: 'Home' }, ...navLinks]} />
       </MobileNavbar>
     </>
   )

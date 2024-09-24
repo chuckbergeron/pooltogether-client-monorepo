@@ -1,4 +1,3 @@
-import { SECONDS_PER_DAY } from '@shared/utilities'
 import { GetStaticProps } from 'next'
 import { getMessages } from 'src/utils'
 import { Layout } from '@components/Layout'
@@ -16,7 +15,6 @@ export const getStaticProps: GetStaticProps<VaultsPageProps> = async ({ locale }
 
   return {
     props: { messages },
-    revalidate: SECONDS_PER_DAY
   }
 }
 

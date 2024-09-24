@@ -1,10 +1,8 @@
-import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from '@shared/generic-react-hooks'
+import { MODAL_KEYS, useIsModalOpen } from '@shared/generic-react-hooks'
 import { SocialIcon } from '@shared/ui'
 import { LINKS } from '@shared/utilities'
 import classNames from 'classnames'
 import { Footer as FlowbiteFooter } from 'flowbite-react'
-import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
 import { useSettingsModalView } from '@hooks/useSettingsModalView'
 
@@ -17,13 +15,6 @@ interface FooterItem {
 }
 
 export const Footer = () => {
-  const router = useRouter()
-
-  const t_settings = useTranslations('Settings')
-  const t_footer = useTranslations('Footer')
-
-  const { isTestnets, setIsTestnets } = useIsTestnets()
-
   const { setIsModalOpen: setIsSettingsModalOpen } = useIsModalOpen(MODAL_KEYS.settings)
   const { setView: setSettingsModalView } = useSettingsModalView()
 
@@ -35,22 +26,22 @@ export const Footer = () => {
 
   const footerItems: FooterItem[] = [
     {
-      title: t_footer('titles.getHelp'),
+      title: 'Get help',
       content: [
-        { content: t_footer('userDocs'), href: LINKS.docs },
-        { content: t_footer('devDocs'), href: LINKS.protocolDevDocs }
+        { content: 'User docs', href: LINKS.docs },
+        { content: 'Dev docs', href: LINKS.protocolDevDocs }
       ]
     },
     {
-      title: t_footer('titles.ecosystem'),
+      title: 'Ecosystem',
       content: [
-        { content: t_footer('extensions'), href: LINKS.ecosystem },
-        { content: t_footer('governance'), href: LINKS.governance },
-        { content: t_footer('security'), href: LINKS.audits }
+        { content: 'Extensions', href: LINKS.ecosystem },
+        { content: 'Governance', href: LINKS.governance },
+        { content: 'Security', href: LINKS.audits }
       ]
     },
     {
-      title: t_footer('titles.community'),
+      title: 'Community',
       content: [
         {
           content: 'Twitter',
@@ -75,17 +66,17 @@ export const Footer = () => {
       ]
     },
     {
-      title: t_footer('titles.settings'),
+      title: "Settings",
       content: [
         {
-          content: t_settings('changeCurrency'),
+          content: 'Chance currency',
           onClick: () => {
             setSettingsModalView('currency')
             setIsSettingsModalOpen(true)
           }
         },
         {
-          content: t_settings('changeLanguage'),
+          content: 'Change language',
           onClick: () => {
             setSettingsModalView('language')
             setIsSettingsModalOpen(true)
@@ -94,16 +85,6 @@ export const Footer = () => {
       ]
     }
   ]
-
-  if (isBrowser) {
-    footerItems[footerItems.length - 1].content.push({
-      content: isTestnets ? t_footer('disableTestnets') : t_footer('enableTestnets'),
-      onClick: () => {
-        setIsTestnets(!isTestnets)
-        router.reload()
-      }
-    })
-  }
 
   return (
     <FlowbiteFooter
@@ -143,10 +124,10 @@ export const Footer = () => {
       </div>
       <div className='flex flex-col gap-1 items-center text-center text-sm text-pt-purple-100'>
         <a href={LINKS.termsOfService} target='_blank' className='hover:underline'>
-          {t_footer('termsAndConditions')}
+          Terms and conditions
         </a>
         <a href={LINKS.privacyPolicy} target='_blank' className='hover:underline'>
-          {t_footer('privacyPolicy')}
+          Privacy policy
         </a>
       </div>
     </FlowbiteFooter>

@@ -1,4 +1,3 @@
-import { SECONDS_PER_DAY } from '@shared/utilities'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -21,8 +20,7 @@ export const getStaticProps: GetStaticProps<VaultPageProps> = async ({ locale })
   const messages = await getMessages(locale)
 
   return {
-    props: { messages },
-    revalidate: SECONDS_PER_DAY
+    props: { messages }
   }
 }
 

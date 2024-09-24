@@ -12,7 +12,6 @@ import { Modal } from '@shared/ui'
 import { LINKS, lower } from '@shared/utilities'
 import classNames from 'classnames'
 import { useAtom, useSetAtom } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { ReactNode, useMemo, useState } from 'react'
 import { walletSupportsPermit } from 'src/utils'
 import { TransactionReceipt } from 'viem'
@@ -54,7 +53,6 @@ export const DepositModal = (props: DepositModalProps) => {
     onSuccessfulDepositWithZap
   } = props
 
-  const t_toasts = useTranslations('Toasts.transactions')
 
   const { connector } = useAccount()
 
@@ -98,7 +96,7 @@ export const DepositModal = (props: DepositModalProps) => {
         txHash: depositTxHash,
         addRecentTransaction,
         refetchUserBalances,
-        intl: t_toasts
+        intl: undefined
       })
     }
   }
@@ -191,26 +189,18 @@ interface DepositDisclaimerProps {
 const DepositDisclaimer = (props: DepositDisclaimerProps) => {
   const { vault } = props
 
-  const t_modals = useTranslations('TxModals')
-
   return (
     <span className='text-xs text-pt-purple-100 px-6'>
-      {t_modals.rich('depositDisclaimer', {
-        tosLink: (chunks) => (
-          <a href={LINKS.termsOfService} target='_blank' className='text-pt-purple-300'>
-            {chunks}
-          </a>
-        ),
-        vaultLink: (chunks) => (
-          <a
-            href={`/vault/${vault.chainId}/${vault.address}`}
-            target='_blank'
-            className='text-pt-purple-300'
-          >
-            {chunks}
-          </a>
-        )
-      })}
+      By clicking "Confirm Deposit", you agree to Cabana's <a href={LINKS.termsOfService} target='_blank' className='text-pt-purple-300'>
+        Terms of Service
+      </a>. Click 
+      <a
+        href={`/vault/${vault.chainId}/${vault.address}`}
+        target='_blank'
+        className='text-pt-purple-300'
+      >
+        here
+      </a> to learn more about the vault you're depositing into.
     </span>
   )
 }

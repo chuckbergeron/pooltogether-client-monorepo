@@ -21,8 +21,6 @@ export interface DelegateModalProps {
 export const DelegateModal = (props: DelegateModalProps) => {
   const { onClose, onSuccessfulDelegation } = props
 
-  const t_toasts = useTranslations('Toasts.transactions')
-
   const addRecentTransaction = useAddRecentTransaction()
 
   const { vault } = useSelectedVault()
@@ -41,7 +39,7 @@ export const DelegateModal = (props: DelegateModalProps) => {
         vault: vault,
         txHash: delegateTxHash,
         addRecentTransaction,
-        intl: t_toasts
+        intl: undefined
       })
     }
   }
