@@ -196,7 +196,7 @@ export const DepositZapTxButton = (props: DepositZapTxButtonProps) => {
   if (depositAmount === 0n) {
     return (
       <Button color='transparent' fullSized={true} disabled={true}>
-        {t_modals('enterAnAmount')}
+        Enter an amount
       </Button>
     )
   }
@@ -210,7 +210,7 @@ export const DepositZapTxButton = (props: DepositZapTxButtonProps) => {
         isTxSuccess={isSuccessfulApproval}
         write={sendApproveTransaction}
         txHash={approvalTxHash}
-        txDescription={t_modals('approvalTx', { symbol: inputToken?.symbol ?? '?' })}
+        txDescription={`${inputToken?.symbol ?? '?'} Approval`}
         fullSized={true}
         disabled={!approvalEnabled}
         openConnectModal={openConnectModal}
