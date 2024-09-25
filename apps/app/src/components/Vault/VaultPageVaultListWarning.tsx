@@ -10,7 +10,6 @@ import { MODAL_KEYS, useIsModalOpen } from '@shared/generic-react-hooks'
 import { VaultInfo } from '@shared/types'
 import { getFormattedVaultList, getVaultId } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import { useAccount } from 'wagmi'
 import { useSettingsModalView } from '@hooks/useSettingsModalView'
@@ -22,9 +21,6 @@ interface VaultPageVaultListWarningProps {
 
 export const VaultPageVaultListWarning = (props: VaultPageVaultListWarningProps) => {
   const { vault, className } = props
-
-  const t_vault = useTranslations('Vault')
-  const t_settings = useTranslations('Settings')
 
   const { address: userAddress } = useAccount()
 
@@ -96,13 +92,13 @@ export const VaultPageVaultListWarning = (props: VaultPageVaultListWarningProps)
         className
       )}
     >
-      <span className='font-semibold'>{t_vault('shortWarningNotInVaultLists')}</span>
+      <span className='font-semibold'>Warning! This vault is not in any of your active lists.</span>
       <div className='flex flex-col md:items-end'>
         <button onClick={onClickAddToPersonalVaultList} className={buttonClassName}>
-          {t_vault('addToPersonalVaultList')}
+          Add to Personal Vault List
         </button>
         <button onClick={onClickManageVaultLists} className={buttonClassName}>
-          {t_settings('manageVaultLists')}
+          Manage Vault Lists
         </button>
       </div>
     </span>

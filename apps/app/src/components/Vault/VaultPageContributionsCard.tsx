@@ -8,7 +8,6 @@ import {
 import { VaultContributionsTooltip } from '@shared/react-components'
 import { Card, Spinner } from '@shared/ui'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import { formatUnits } from 'viem'
@@ -23,9 +22,6 @@ interface VaultPageContributionsCardProps {
 export const VaultPageContributionsCard = (props: VaultPageContributionsCardProps) => {
   const { vault, prizePool, className } = props
 
-  const t_vault = useTranslations('Vault')
-  const t_tooltips = useTranslations('Tooltips')
-
   const { data: prizeToken } = usePrizeTokenData(prizePool)
 
   const [numDraws, setNumDraws] = useState<number | undefined>(7)
@@ -34,8 +30,8 @@ export const VaultPageContributionsCard = (props: VaultPageContributionsCardProp
     <Card className='gap-4' wrapperClassName={classNames('w-full', className)}>
       <div className='flex flex-col items-center gap-2 text-pt-purple-300 font-semibold md:flex-row'>
         <span className='grow flex items-center gap-2 text-xl md:text-2xl'>
-          <span>{t_vault('headers.contributions')}</span>
-          <VaultContributionsTooltip tokenSymbol={prizeToken?.symbol ?? '?'} intl={t_tooltips} />
+          <span>Contributions</span>
+          <VaultContributionsTooltip tokenSymbol={prizeToken?.symbol ?? '?'} intl={undefined} />
         </span>
         <div className='flex items-center gap-2'>
           <NumDrawsOptionButton onClick={setNumDraws} numDraws={numDraws} option={7} />
@@ -57,8 +53,6 @@ interface NumDrawsOptionButtonProps {
 const NumDrawsOptionButton = (props: NumDrawsOptionButtonProps) => {
   const { onClick, numDraws, option } = props
 
-  const t_common = useTranslations('Common')
-
   return (
     <button
       onClick={() => onClick(option)}
@@ -67,7 +61,7 @@ const NumDrawsOptionButton = (props: NumDrawsOptionButtonProps) => {
         'border-transparent': numDraws !== option
       })}
     >
-      {!!option ? `${option} ${t_common('draws').toLowerCase()}` : t_common('allTime')}
+      {!!option ? `${option} ${'draws'.toLowerCase()}` : 'All time'}
     </button>
   )
 }
@@ -81,8 +75,6 @@ interface ContributionsChartProps {
 
 const ContributionsChart = (props: ContributionsChartProps) => {
   const { vault, prizePool, numDraws, className } = props
-
-  const t_vault = useTranslations('Vault')
 
   const { data: contributions } = useVaultContributions(prizePool, vault.address)
 
@@ -136,9 +128,7 @@ const ContributionsChart = (props: ContributionsChartProps) => {
             </BarChart>
           </ResponsiveContainer>
         ) : (
-          <span className='text-sm text-pt-purple-100 md:text-base'>
-            {t_vault('noContributionsYet')}
-          </span>
+          <span className='text-sm text-pt-purple-100 md:text-base'>No contributions yet</span>
         )
       ) : (
         <Spinner />

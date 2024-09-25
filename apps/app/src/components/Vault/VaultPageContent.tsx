@@ -11,7 +11,6 @@ import { AlertIcon, ErrorPooly } from '@shared/react-components'
 import { Button, Spinner } from '@shared/ui'
 import { getBlockExplorerUrl, getVaultId, LINKS, lower, NETWORK } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { ParsedUrlQuery } from 'querystring'
 import { AnchorHTMLAttributes, DetailedHTMLProps, useEffect, useMemo } from 'react'
@@ -183,8 +182,6 @@ interface DisclaimerProps {
 const Disclaimer = (props: DisclaimerProps) => {
   const { vault, className } = props
 
-  const t_vault = useTranslations('Vault')
-
   const { data: share } = useVaultShareData(vault)
   const { data: yieldSourceAddress } = useVaultYieldSource(vault)
 
@@ -201,34 +198,28 @@ const Disclaimer = (props: DisclaimerProps) => {
     >
       <div className='flex gap-2 items-center'>
         <AlertIcon className='w-5 h-5' />
-        <span className='lg:font-semibold'>
-          {t_vault('learnAboutVault', { vaultName: vault.name ?? share?.name ?? '?' })}
-        </span>
+        <span className='lg:font-semibold'>Learn about {vault.name ?? share?.name ?? '?'}</span>
       </div>
       <span>
-        {t_vault.rich('smartContractRisk', {
-          docsLink: (chunks) => (
-            <a href={LINKS.docs} {...linkProps}>
-              {chunks}
-            </a>
-          ),
-          vaultLink: (chunks) => (
-            <a href={getBlockExplorerUrl(vault.chainId, vault.address)} {...linkProps}>
-              {chunks}
-            </a>
-          ),
-          yieldLink: (chunks) => (
-            <a
-              href={getBlockExplorerUrl(
-                vault.chainId,
-                yieldSourceAddress ?? `${vault.address}/#readContract`
-              )}
-              {...linkProps}
-            >
-              {chunks}
-            </a>
-          )
-        })}
+        PoolTogether is a permissionless protocol that anyone can use to deploy prize vaults.{' '}
+        <a href={LINKS.docs} {...linkProps}>
+          Read our documentation
+        </a>{' '}
+        to learn more. This prize vault exposes you to smart contract risk related to the{' '}
+        <a href={getBlockExplorerUrl(vault.chainId, vault.address)} {...linkProps}>
+          vault contract
+        </a>
+        and its underlying{' '}
+        <a
+          href={getBlockExplorerUrl(
+            vault.chainId,
+            yieldSourceAddress ?? `${vault.address}/#readContract`
+          )}
+          {...linkProps}
+        >
+          yield contract
+        </a>
+        .
       </span>
     </div>
   )
@@ -242,9 +233,6 @@ interface ErrorStateProps {
 
 const ErrorState = (props: ErrorStateProps) => {
   const { chainId, tokenAddress, className } = props
-
-  const t_vault = useTranslations('Vault')
-  const t_error = useTranslations('Error')
 
   const networks = useNetworks()
 
@@ -261,21 +249,27 @@ const ErrorState = (props: ErrorStateProps) => {
       <ErrorPooly className='w-full max-w-[50%]' />
       {isInvalidNetwork ? (
         <div className='flex flex-col gap-2'>
-          <span>{t_error('vaultInvalidNetwork')}</span>
+          <span>This vault's network isn't supported.</span>
           {!!chainId && SUPPORTED_NETWORKS.testnets.includes(chainId) && (
-            <span>{t_error('vaultEnableTestnets')}</span>
+            <span>
+              If you're looking to view a testnet vault, make sure to 'Enable Testnets' in the
+              settings below.
+            </span>
           )}
           {!!chainId && SUPPORTED_NETWORKS.mainnets.includes(chainId) && (
-            <span>{t_error('vaultDisableTestnets')}</span>
+            <span>
+              If you're looking to view a mainnet vault, make sure to "Disable Testnets" in the
+              settings below.
+            </span>
           )}
         </div>
       ) : isInvalidInterface ? (
-        <span>{t_error('vaultInvalidInterface')}</span>
+        <span>This doesn't look like a valid vault address.</span>
       ) : (
-        <span>{t_error('vaultQueryError')}</span>
+        <span>Something went wrong while querying this vault's info.</span>
       )}
       <Link href='/vaults' passHref={true}>
-        <Button>{t_vault('returnToVaults')}</Button>
+        <Button>Return to vaults</Button>
       </Link>
     </div>
   )

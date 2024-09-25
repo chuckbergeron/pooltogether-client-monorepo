@@ -14,7 +14,6 @@ import {
   sortByBigIntDesc
 } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { ReactNode, useMemo, useState } from 'react'
 import { Address } from 'viem'
@@ -31,10 +30,6 @@ interface VaultPageRecentWinnersCardProps {
 
 export const VaultPageRecentWinnersCard = (props: VaultPageRecentWinnersCardProps) => {
   const { vault, prizePool, className } = props
-
-  const t_common = useTranslations('Common')
-  const t_vault = useTranslations('Vault')
-  const t_prizes = useTranslations('Prizes')
 
   const { data: prizeToken, isFetched: isFetchedPrizeToken } = usePrizeTokenData(prizePool)
 
@@ -102,27 +97,27 @@ export const VaultPageRecentWinnersCard = (props: VaultPageRecentWinnersCardProp
 
   return (
     <VaultPageCard
-      title={t_prizes('recentWinners')}
+      title={'Recent winners'}
       wrapperClassName={classNames('w-full aspect-[4/3] md:aspect-[7/3] md:px-16', className)}
     >
       {isFetched ? (
         sortedWins.length ? (
           <div className='w-full grow flex flex-col gap-2'>
             <div className='w-full grid grid-cols-3 font-semibold text-pt-purple-300'>
-              <span className='text-left'>{t_prizes('drawModal.winner')}</span>
+              <span className='text-left'>Winner</span>
               <SortableHeader
                 onClick={() => handleHeaderClick('timestamp')}
                 direction={getDirection('timestamp')}
                 className='justify-center'
               >
-                {t_common('date')}
+                Date
               </SortableHeader>
               <SortableHeader
                 onClick={() => handleHeaderClick('amount')}
                 direction={getDirection('amount')}
                 className='justify-end text-right'
               >
-                {t_prizes('prize')}
+                Prize
               </SortableHeader>
             </div>
             {sortedWins.slice(0, 6).map((win) => (
@@ -134,7 +129,7 @@ export const VaultPageRecentWinnersCard = (props: VaultPageRecentWinnersCardProp
             ))}
           </div>
         ) : (
-          <span className='text-sm text-pt-purple-100 md:text-base'>{t_vault('noWinnersYet')}</span>
+          <span className='text-sm text-pt-purple-100 md:text-base'>No winners yet</span>
         )
       ) : (
         <Spinner />

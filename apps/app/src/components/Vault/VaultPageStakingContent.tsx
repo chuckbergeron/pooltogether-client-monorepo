@@ -5,10 +5,8 @@ import {
 } from '@generationsoftware/hyperstructure-react-hooks'
 import { useScreenSize } from '@shared/generic-react-hooks'
 import { Token } from '@shared/types'
-import { Intl } from '@shared/types'
 import { Card, Spinner } from '@shared/ui'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts'
 import { formatUnits } from 'viem'
@@ -27,9 +25,6 @@ export const VaultPagePoolStakingContent = (props: VaultPagePoolStakingContentPr
   const { vault, prizePool, className } = props
 
   const numDraws = 7
-
-  const t_vault = useTranslations('Vault')
-  const t_common = useTranslations('Common')
 
   const { data: prizeToken } = usePrizeTokenData(prizePool)
 
@@ -90,10 +85,10 @@ export const VaultPagePoolStakingContent = (props: VaultPagePoolStakingContentPr
           currentReserveRate={vaultContributions?.current.percentage}
           pastReserveRate={vaultContributions?.past.percentage}
         />
-        <VaultPageCard title={t_vault('headers.prizeYield')}>
+        <VaultPageCard title='Prize yield'>
           <VaultPrizeYield
             vault={vault}
-            label={t_common('apr')}
+            label='APR'
             className='text-3xl font-semibold text-pt-purple-100'
           />
         </VaultPageCard>
@@ -101,16 +96,13 @@ export const VaultPagePoolStakingContent = (props: VaultPagePoolStakingContentPr
       <Card className='aspect-[2/3] md:aspect-[3/2] items-center'>
         <div className='flex flex-col gap-4 text-center text-pt-purple-100 font-semibold md:gap-1'>
           <span className='text-3xl'>
-            {t_vault.rich('poolStaking.wherePrizesComeFrom', {
-              highlight: (chunks) => <span className='text-pt-purple-300'>{chunks}</span>
-            })}
+            Where <span className='text-pt-purple-300'>Prize POOL</span> prizes come from
           </span>
           {!!prizeToken && (
             <span>
-              {t_vault.rich('poolStaking.reserveDescription', {
-                token: prizeToken.symbol,
-                highlight: (chunks) => <span className='text-pt-teal-light'>{chunks}</span>
-              })}
+              The {prizeToken.symbol} in the{' '}
+              <span className='text-pt-teal-light'>POOL reserve</span> goes to this vault and is
+              distributed as prizes!
             </span>
           )}
         </div>
@@ -140,8 +132,6 @@ interface ReserveRateCardProps {
 const ReserveRateCard = (props: ReserveRateCardProps) => {
   const { numDraws, currentReserveRate, pastReserveRate } = props
 
-  const t_vault = useTranslations('Vault')
-
   const formattedReserveRate =
     currentReserveRate !== undefined
       ? currentReserveRate.toLocaleString(undefined, { maximumFractionDigits: 2 })
@@ -156,11 +146,11 @@ const ReserveRateCard = (props: ReserveRateCardProps) => {
     : undefined
 
   return (
-    <VaultPageCard title={t_vault('poolStaking.reserveRate')}>
+    <VaultPageCard title={'POOL Reserve Rate'}>
       {currentReserveRate !== undefined ? (
         <>
           <span className='text-3xl font-semibold text-pt-purple-100'>
-            {t_vault('poolStaking.percentageOfYield', { number: formattedReserveRate })}
+            {formattedReserveRate}% of yield
           </span>
           {!!change && (
             <span
@@ -170,10 +160,7 @@ const ReserveRateCard = (props: ReserveRateCardProps) => {
               })}
             >
               {change > 0 ? '↑' : '↓'}
-              {formattedChange}%{' '}
-              <span className='text-pt-purple-300'>
-                {t_vault('poolStaking.lastNDraws', { number: numDraws })}
-              </span>
+              {formattedChange}% <span className='text-pt-purple-300'>last {numDraws} draws</span>
             </span>
           )}
         </>
@@ -196,8 +183,6 @@ interface VaultContributionsChartProps {
 
 const VaultContributionsChart = (props: VaultContributionsChartProps) => {
   const { vaultContributions, prizeToken, numDraws, className } = props
-
-  const t_poolStaking = useTranslations('Vault.poolStaking')
 
   const { isDesktop } = useScreenSize()
 
@@ -223,8 +208,7 @@ const VaultContributionsChart = (props: VaultContributionsChartProps) => {
             innerRadius='60%'
             label={
               isDesktop
-                ? (params) =>
-                    getSvgLabel(params, vaultContributions, prizeToken, numDraws, t_poolStaking)
+                ? (params) => getSvgLabel(params, vaultContributions, prizeToken, numDraws)
                 : false
             }
             labelLine={false}
@@ -265,10 +249,8 @@ interface KeysProps {
 const Keys = (props: KeysProps) => {
   const { vaultContributions, prizeToken, numDraws, className } = props
 
-  const t_poolStaking = useTranslations('Vault.poolStaking')
-
   const { titles, formattedAmounts, changes, formattedChanges, fillColors, changeTimeText } =
-    getKeysData(vaultContributions, numDraws, t_poolStaking)
+    getKeysData(vaultContributions, numDraws)
 
   const Key = (props: { index: number }) => {
     const { index } = props
@@ -315,13 +297,9 @@ const getKeysData = (
     current: { amount: number; totalAmount: number; percentage: number }
     past: { amount: number; totalAmount: number; percentage: number }
   },
-  numDraws: number,
-  intl: Intl<'nDayNetworkYield' | 'nDayPoolReserve' | 'lastNDays' | 'lastNDraws'>
+  numDraws: number
 ) => {
-  const titles = [
-    intl('nDayNetworkYield', { number: numDraws }),
-    intl('nDayPoolReserve', { number: numDraws })
-  ]
+  const titles = [`${numDraws}D Network Yield`, `${numDraws}D POOL Reserve`]
   const formattedAmounts = [
     vaultContributions.current.totalAmount.toLocaleString(undefined, {
       maximumFractionDigits: 3
@@ -340,7 +318,7 @@ const getKeysData = (
   ]
   const fillColors = ['#6538c1', '#35f0d0']
 
-  const changeTimeText = intl('lastNDraws', { number: numDraws })
+  const changeTimeText = `Last ${numDraws} draws`
 
   return { titles, formattedAmounts, changes, formattedChanges, fillColors, changeTimeText }
 }
@@ -360,8 +338,7 @@ const getSvgLabel = (
     past: { amount: number; totalAmount: number; percentage: number }
   },
   prizeToken: Token,
-  numDraws: number,
-  intl: Intl<'nDayNetworkYield' | 'nDayPoolReserve' | 'lastNDays' | 'lastNDraws'>
+  numDraws: number
 ) => {
   const { cx, cy, midAngle: _midAngle, innerRadius, outerRadius, maxRadius, index } = data
 
@@ -374,7 +351,7 @@ const getSvgLabel = (
   const defaultProps = { x, y, dominantBaseline: 'middle' }
 
   const { titles, formattedAmounts, changes, formattedChanges, fillColors, changeTimeText } =
-    getKeysData(vaultContributions, numDraws, intl)
+    getKeysData(vaultContributions, numDraws)
 
   return (
     <>

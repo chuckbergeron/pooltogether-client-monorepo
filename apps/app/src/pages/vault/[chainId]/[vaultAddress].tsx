@@ -7,7 +7,7 @@ import { VaultPageContent } from '@components/Vault/VaultPageContent'
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
-    fallback: true
+    fallback: false
   }
 }
 
