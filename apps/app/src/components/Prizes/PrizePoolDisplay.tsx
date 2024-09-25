@@ -22,7 +22,7 @@ export const PrizePoolDisplay = (props: PrizePoolDisplayProps) => {
       </span>
       <PrizePoolCarousel className='mt-8 mb-4' />
       <span>
-        * Prizes and frequencies are estimations. 
+        * Prizes and frequencies are estimations.{' '}
         <ExternalLink
           href={LINKS.protocolBasicsDocs}
           size='xs'
