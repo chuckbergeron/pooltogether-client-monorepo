@@ -9,7 +9,6 @@ import {
 } from '@shared/react-components'
 import { lower } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { POOL_STAKING_VAULTS, TWAB_REWARDS_SETTINGS } from '@constants/config'
 import { useVaultImportedListSrcs } from '@hooks/useVaultImportedListSrcs'
@@ -26,9 +25,6 @@ interface VaultCardProps {
 export const VaultCard = (props: VaultCardProps) => {
   const { vault } = props
 
-  const t_common = useTranslations('Common')
-  const t_vaults = useTranslations('Vaults')
-  const t_tooltips = useTranslations('Tooltips')
 
   const importedSrcs = useVaultImportedListSrcs(vault)
 
@@ -50,14 +46,14 @@ export const VaultCard = (props: VaultCardProps) => {
           <VaultBadge vault={vault} onClick={() => {}} />
         </Link>
         {importedSrcs.length > 0 && (
-          <ImportedVaultTooltip vaultLists={importedSrcs} intl={t_tooltips('importedVault')} />
+          <ImportedVaultTooltip vaultLists={importedSrcs} intl={'This vault is from the following imported list(s):'} />
         )}
       </div>
       <div className='w-full flex flex-col gap-1 px-3'>
         <div className='flex items-center justify-between'>
           <span className='flex gap-1 items-center text-sm text-pt-purple-200'>
-            {t_vaults('headers.winChance')}
-            <RelativeWinChanceTooltip intl={t_tooltips('relativeWinChance')} className='text-xs' />
+            Win chance
+            <RelativeWinChanceTooltip intl={"A vault's relative win chance compared to other vaults"} className='text-xs' />
           </span>
           <VaultWinChance
             vault={vault}
@@ -68,27 +64,27 @@ export const VaultCard = (props: VaultCardProps) => {
         </div>
         <div className='flex items-center justify-between'>
           <span className='flex gap-1 items-center text-sm text-pt-purple-200'>
-            {t_vaults('headers.prizes')}
-            <PrizesTooltip intl={t_tooltips('prizes')} className='text-xs' />
+            Prizes
+            <PrizesTooltip intl={'Prizes you can win while deposited in a vault'} className='text-xs' />
           </span>
           <VaultPrizes vault={vault} className='text-xs' amountClassName='!text-base' />
         </div>
         {!!vaultPromotionsApr?.apr && (
           <div className='flex items-center justify-between'>
             <span className='flex gap-1 items-center text-sm text-pt-purple-200'>
-              {t_vaults('headers.bonusRewards')}
-              <BonusRewardsTooltip intl={t_tooltips('bonusRewards')} className='text-xs' />
+              Bonus rewards
+              <BonusRewardsTooltip intl={'An estimate of current extra incentives for depositors'} className='text-xs' />
             </span>
             <VaultBonusRewards
               vault={vault}
               prepend={<span className='text-xs'>+</span>}
-              append={<span className='text-xs text-pt-purple-200'>{t_common('apr')}</span>}
+              append={<span className='text-xs text-pt-purple-200'>APR</span>}
               valueClassName='text-sm'
             />
           </div>
         )}
         <div className='flex items-center justify-between'>
-          <span className='text-sm text-pt-purple-200'>{t_vaults('headers.totalDeposits')}</span>
+          <span className='text-sm text-pt-purple-200'>Total deposits</span>
           <VaultTotalDeposits vault={vault} amountClassName='hidden' />
         </div>
       </div>

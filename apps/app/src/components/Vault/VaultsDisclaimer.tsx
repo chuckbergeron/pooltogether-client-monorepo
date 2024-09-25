@@ -4,7 +4,6 @@ import { AlertIcon } from '@shared/react-components'
 import { Button, ExternalLink } from '@shared/ui'
 import { LINKS } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 
 interface VaultsDisclaimerProps {
   className?: string
@@ -12,9 +11,6 @@ interface VaultsDisclaimerProps {
 
 export const VaultsDisclaimer = (props: VaultsDisclaimerProps) => {
   const { className } = props
-
-  const t_common = useTranslations('Common')
-  const t_vaults = useTranslations('Vaults')
 
   const { isDismissed, dismiss } = useIsDismissed('vaultsDisclaimer')
 
@@ -33,7 +29,7 @@ export const VaultsDisclaimer = (props: VaultsDisclaimerProps) => {
       <div className='flex gap-2 items-center'>
         <AlertIcon className='w-5 h-5' />
         <span className='text-base font-semibold whitespace-nowrap'>
-          {t_common('learnAboutRisks')}:
+          Learn about the risks
         </span>
         <XMarkIcon
           className='w-7 h-7 shrink-0 ml-auto cursor-pointer lg:hidden'
@@ -41,24 +37,18 @@ export const VaultsDisclaimer = (props: VaultsDisclaimerProps) => {
         />
       </div>
       <span className='inline-block grow text-xs lg:text-base'>
-        {t_vaults.rich('disclaimer', {
-          link: (chunks) => (
-            <ExternalLink
+        PoolTogether prize vaults can be deployed by anyone. <ExternalLink
               href={LINKS.risks}
               className='text-xs text-pt-purple-300 lg:text-base'
               iconClassName='!h-4 !w-4'
-            >
-              {chunks}
-            </ExternalLink>
-          )
-        })}
+            >Know what you are depositing into</ExternalLink>
       </span>
       <a
         href={LINKS.termsOfService}
         target='_blank'
         className='mx-auto text-xs text-blue-500 whitespace-nowrap lg:hidden'
       >
-        {t_common('termsOfService')}
+        Terms of Service
       </a>
       <Button
         href={LINKS.termsOfService}
@@ -66,7 +56,7 @@ export const VaultsDisclaimer = (props: VaultsDisclaimerProps) => {
         color='transparent'
         className='hidden lg:block'
       >
-        <span className='text-sm whitespace-nowrap'>{t_common('termsOfService')}</span>
+        <span className='text-sm whitespace-nowrap'>Terms of Service</span>
       </Button>
       <XMarkIcon className='hidden w-7 h-7 shrink-0 cursor-pointer lg:block' onClick={dismiss} />
     </div>

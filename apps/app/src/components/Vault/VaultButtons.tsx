@@ -4,7 +4,6 @@ import { GiftIcon } from '@heroicons/react/24/solid'
 import { DelegateButton, DepositButton, WithdrawButton } from '@shared/react-components'
 import classNames from 'classnames'
 import * as fathom from 'fathom-client'
-import { useTranslations } from 'next-intl'
 import { Address } from 'viem'
 import { useAccount } from 'wagmi'
 import { FATHOM_EVENTS } from '@constants/config'
@@ -19,9 +18,6 @@ interface VaultButtonsProps {
 
 export const VaultButtons = (props: VaultButtonsProps) => {
   const { vault, forceShow, forceHide, fullSized, className } = props
-
-  const t_common = useTranslations('Common')
-  const t_tooltips = useTranslations('Tooltips')
 
   const { address: userAddress } = useAccount()
 
@@ -52,15 +48,21 @@ export const VaultButtons = (props: VaultButtonsProps) => {
           fullSized={fullSized}
           color='transparent'
         >
-          {t_common('withdraw')}
+          Withdraw
         </WithdrawButton>
       )}
       <DepositButton
         vault={vault}
         extraOnClick={() => fathom.trackEvent(FATHOM_EVENTS.openedDepositModal)}
         fullSized={fullSized}
-        intl={{ base: t_common, tooltips: t_tooltips }}
+        // intl={{ base: undefined, tooltips: undefined }}
       />
+      {/* <DepositButton
+        vault={vault}
+        extraOnClick={() => fathom.trackEvent(FATHOM_EVENTS.openedDepositModal)}
+        fullSized={fullSized}
+        intl={{ base: undefined, tooltips: undefined }}
+      /> */}
     </div>
   )
 }

@@ -1,7 +1,6 @@
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetStaticPaths } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { getMessages } from 'src/utils'
 import { Layout } from '@components/Layout'
 import { VaultPageContent } from '@components/Vault/VaultPageContent'
 
@@ -9,18 +8,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
     fallback: true
-  }
-}
-
-interface VaultPageProps {
-  messages: IntlMessages
-}
-
-export const getStaticProps: GetStaticProps<VaultPageProps> = async ({ locale }) => {
-  const messages = await getMessages(locale)
-
-  return {
-    props: { messages }
   }
 }
 

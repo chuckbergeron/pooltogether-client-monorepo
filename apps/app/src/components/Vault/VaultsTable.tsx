@@ -14,7 +14,6 @@ import {
 import { Table, TableProps } from '@shared/ui'
 import { getVaultId, lower } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 import { POOL_STAKING_VAULTS } from '@constants/config'
@@ -33,10 +32,6 @@ interface VaultsTableProps {
 
 export const VaultsTable = (props: VaultsTableProps) => {
   const { vaults, onSort, getSortDirection, className } = props
-
-  const t_common = useTranslations('Common')
-  const t_vaults = useTranslations('Vaults')
-  const t_tooltips = useTranslations('Tooltips')
 
   const { localVaultLists, importedVaultLists } = useSelectedVaultLists()
 
@@ -68,14 +63,14 @@ export const VaultsTable = (props: VaultsTableProps) => {
 
   const tableData: TableProps['data'] = {
     headers: {
-      vault: { content: t_vaults('headers.prizeVault') },
+      vault: { content: 'Prize Vault' },
       prizes: {
         content: (
           <SortableHeader
             id='prizes'
             onClick={onSort}
             direction={getSortDirection('prizes')}
-            append={<PrizesTooltip iconSize='lg' intl={t_tooltips('prizes')} />}
+            append={<PrizesTooltip iconSize='lg' intl={'Prizes you can win while deposited in a vault'} />}
           />
         ),
         position: 'center'
@@ -87,7 +82,7 @@ export const VaultsTable = (props: VaultsTableProps) => {
             onClick={onSort}
             direction={getSortDirection('winChance')}
             append={
-              <RelativeWinChanceTooltip iconSize='lg' intl={t_tooltips('relativeWinChance')} />
+              <RelativeWinChanceTooltip iconSize='lg' intl={`A vault's relative win chance compared to other vaults`} />
             }
           />
         ),
@@ -122,7 +117,7 @@ export const VaultsTable = (props: VaultsTableProps) => {
                 {importedSrcs.length > 0 && (
                   <ImportedVaultTooltip
                     vaultLists={importedSrcs}
-                    intl={t_tooltips('importedVault')}
+                    intl={'This vault is from the following imported list(s):'}
                   />
                 )}
               </>
@@ -136,7 +131,7 @@ export const VaultsTable = (props: VaultsTableProps) => {
                 <VaultBonusRewards
                   vault={vault}
                   prepend='+'
-                  append={<span className='text-pt-purple-200'>{t_common('apr')}</span>}
+                  append={<span className='text-pt-purple-200'>APR</span>}
                   hideUnlessPresent={true}
                   showTokens={true}
                   className='text-sm'
@@ -188,13 +183,11 @@ interface SortableHeaderProps {
 const SortableHeader = (props: SortableHeaderProps) => {
   const { id, onClick, direction, append } = props
 
-  const t = useTranslations('Vaults')
-
   const names: Record<SortId, string> = {
-    prizes: t('headers.prizes'),
-    winChance: t('headers.winChance'),
-    totalBalance: t('headers.totalDeposits'),
-    userBalance: t('headers.yourBalance')
+    prizes: 'Prizes',
+    winChance: 'Win chance',
+    totalBalance: 'Total deposits',
+    userBalance: 'Your balance'
   }
 
   return (
@@ -212,7 +205,5 @@ const SortableHeader = (props: SortableHeaderProps) => {
 }
 
 const ManageHeader = () => {
-  const t = useTranslations('Common')
-
-  return <span className='w-24 text-center'>{t('manage')}</span>
+  return <span className='w-24 text-center'>Manage</span>
 }

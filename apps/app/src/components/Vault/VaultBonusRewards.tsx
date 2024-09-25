@@ -5,7 +5,6 @@ import { Token } from '@shared/types'
 import { Spinner } from '@shared/ui'
 import { formatNumberForDisplay, TWAB_REWARDS_ADDRESSES } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { ReactNode } from 'react'
 import { TWAB_REWARDS_SETTINGS } from '@constants/config'
 
@@ -80,8 +79,6 @@ interface RewardTokensProps {
 const RewardTokens = (props: RewardTokensProps) => {
   const { tokens, className } = props
 
-  const t = useTranslations('Vault.rewardsInTokens')
-
   if (tokens.length === 0) return <></>
 
   const contentClassName = 'flex shrink-0 gap-x-1 whitespace-nowrap'
@@ -98,7 +95,7 @@ const RewardTokens = (props: RewardTokensProps) => {
   if (tokens.length === 1) {
     return (
       <div className={classNames(contentClassName, className)}>
-        {t.rich('oneToken', { token: FirstToken })}
+        in <FirstToken />
       </div>
     )
   }
@@ -113,14 +110,14 @@ const RewardTokens = (props: RewardTokensProps) => {
   if (tokens.length === 2) {
     return (
       <div className={classNames(contentClassName, className)}>
-        {t.rich('twoTokens', { firstToken: FirstToken, secondToken: SecondToken })}
+        in <FirstToken /> and <SecondToken />
       </div>
     )
   }
 
   return (
     <div className={classNames(contentClassName, className)}>
-      {t.rich('manyTokens', { token: FirstToken, number: tokens.length - 1 })}
+      in <FirstToken /> & {tokens.length - 1} others
     </div>
   )
 }

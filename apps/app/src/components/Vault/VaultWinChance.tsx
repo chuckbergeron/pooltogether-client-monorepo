@@ -65,25 +65,23 @@ interface WinChanceGraphicProps {
 const WinChanceGraphic = (props: WinChanceGraphicProps) => {
   const { winChance, className, tooltipClassName } = props
 
-  const t = useTranslations('Tooltips.winChanceChart')
-
   const fill = (minWinChance: number) => {
     return !!winChance && winChance >= minWinChance ? '#B18CFF' : '#F5F0FF1A'
   }
 
   const tooltipContent = useMemo(() => {
     if (winChance >= 0.75) {
-      return t('highest')
+      return 'Highest'
     } else if (winChance >= 0.5) {
-      return t('high')
+      return 'High'
     } else if (winChance >= 0.25) {
-      return t('average')
+      return 'Average'
     } else if (winChance >= 0.1) {
-      return t('low')
+      return 'Low'
     } else if (winChance > 0) {
-      return t('lowest')
+      return 'Lowest'
     } else {
-      return t('none')
+      return 'None'
     }
   }, [winChance])
 

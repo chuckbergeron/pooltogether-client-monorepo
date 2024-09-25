@@ -12,7 +12,6 @@ import { Selection, SelectionItem } from '@shared/ui'
 import { getVaultId, NETWORK, STABLECOINS } from '@shared/utilities'
 import classNames from 'classnames'
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'
@@ -34,8 +33,6 @@ export const VaultFilters = (props: VaultFiltersProps) => {
 
   const router = useRouter()
   const searchParams = useSearchParams()
-
-  const t = useTranslations('Vaults')
 
   const { address: userAddress } = useAccount()
 
@@ -119,7 +116,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
     () => [
       {
         id: 'all',
-        content: t('filters.showAll'),
+        content: 'Show all',
         onClick: () => {
           setFilterId('all')
           handleQueryParamChanges({})
@@ -129,7 +126,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
       },
       {
         id: 'stablecoin',
-        content: t('filters.stablecoins'),
+        content: 'Stablecoins',
         onClick: () => {
           setFilterId('stablecoin')
           handleQueryParamChanges({})

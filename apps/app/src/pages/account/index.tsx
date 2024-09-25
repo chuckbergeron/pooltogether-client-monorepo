@@ -1,5 +1,3 @@
-import { GetStaticProps } from 'next'
-import { getMessages } from 'src/utils'
 import { AccountDelegations } from '@components/Account/AccountDelegations'
 import { AccountDeposits } from '@components/Account/AccountDeposits'
 import { AccountOdds } from '@components/Account/AccountOdds'
@@ -10,14 +8,6 @@ import { Layout } from '@components/Layout'
 
 interface AccountPageProps {
   messages: IntlMessages
-}
-
-export const getStaticProps: GetStaticProps<AccountPageProps> = async ({ locale }) => {
-  const messages = await getMessages(locale)
-
-  return {
-    props: { messages },
-  }
 }
 
 export default function AccountPage() {
