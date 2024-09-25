@@ -7,7 +7,6 @@ import {
 import { Spinner } from '@shared/ui'
 import { formatNumberForDisplay, NETWORK, shorten } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { Address } from 'viem'
 import { useAccount, useEnsName } from 'wagmi'

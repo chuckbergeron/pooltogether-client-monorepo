@@ -1,6 +1,5 @@
 import { ErrorPooly } from '@shared/react-components'
 import { Button } from '@shared/ui'
-import { useTranslations } from 'next-intl'
 import { DepositModalView } from '..'
 
 interface ErrorViewProps {
@@ -10,13 +9,11 @@ interface ErrorViewProps {
 export const ErrorView = (props: ErrorViewProps) => {
   const { setModalView } = props
 
-  const t = useTranslations('TxModals')
-
   return (
     <div className='flex flex-col gap-6 items-center'>
       <div className='flex flex-col items-center text-lg font-semibold text-center'>
-        <span className='text-[#EA8686]'>{t('uhOh')}</span>
-        <span>{t('failedTx')}</span>
+        <span className='text-[#EA8686]'>Uh oh ...</span>
+        <span>Something went wrong.</span>
       </div>
       <ErrorPooly className='w-40 h-auto' />
       <Button
@@ -25,7 +22,7 @@ export const ErrorView = (props: ErrorViewProps) => {
         onClick={() => setModalView('main')}
         className='md:mt-32'
       >
-        {t('tryAgain')}
+        Try again
       </Button>
     </div>
   )

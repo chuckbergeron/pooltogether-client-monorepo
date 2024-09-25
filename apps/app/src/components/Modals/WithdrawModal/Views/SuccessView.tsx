@@ -11,7 +11,6 @@ import {
   lower
 } from '@shared/utilities'
 import { useAtomValue } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { Address, decodeEventLog, TransactionReceipt } from 'viem'
@@ -28,9 +27,6 @@ export const SuccessView = (props: SuccessViewProps) => {
   const { vault, txHash, closeModal } = props
 
   const router = useRouter()
-
-  const t_common = useTranslations('Common')
-  const t_modals = useTranslations('TxModals')
 
   const { address: userAddress } = useAccount()
 
@@ -64,13 +60,13 @@ export const SuccessView = (props: SuccessViewProps) => {
     <div className='flex flex-col gap-6 items-center'>
       <div className='flex flex-col gap-3 items-center'>
         <div className='flex flex-col items-center text-lg font-medium text-center'>
-          <span className='text-pt-teal'>{t_modals('success')}</span>
-          <span>{!!tokensReceived ? t_modals('gotTokens', { tokens }) : <Spinner />}</span>
+          <span className='text-pt-teal'>Success</span>
+          <span>{!!tokensReceived ? `You got ${tokens}` : <Spinner />}</span>
         </div>
         <PrizePoolBadge
           chainId={vault.chainId}
           hideBorder={true}
-          intl={t_common}
+          intl={undefined}
           className='!py-1'
         />
         <SuccessPooly className='w-40 h-auto mt-3' />
@@ -81,7 +77,7 @@ export const SuccessView = (props: SuccessViewProps) => {
           size='sm'
           className='text-pt-teal'
         >
-          {t_common('viewOn', { name })}
+          View on {name}
         </ExternalLink>
       )}
       <Button
@@ -92,7 +88,7 @@ export const SuccessView = (props: SuccessViewProps) => {
           closeModal()
         }}
       >
-        {t_modals('viewAccount')}
+        View account
       </Button>
     </div>
   )

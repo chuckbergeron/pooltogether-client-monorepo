@@ -7,7 +7,6 @@ import {
 import { MODAL_KEYS, useIsModalOpen } from '@shared/generic-react-hooks'
 import { Button, Spinner } from '@shared/ui'
 import { useAtomValue, useSetAtom } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 import { VaultCards } from './VaultCards'
 import { filteredVaultsAtom, filterIdAtom, vaultListFilterIdAtom } from './VaultFilters'
@@ -93,9 +92,6 @@ const NoSelectedVaultListsCard = () => {
 }
 
 const NoValidVaultsCard = () => {
-  const t_vaults = useTranslations('Vaults')
-  const t_error = useTranslations('Error')
-
   const { setIsModalOpen: setIsSettingsModalOpen } = useIsModalOpen(MODAL_KEYS.settings)
 
   const setFilterId = useSetAtom(filterIdAtom)
@@ -109,14 +105,14 @@ const NoValidVaultsCard = () => {
   return (
     <div className='flex flex-col items-center text-center p-6 bg-pt-transparent rounded-lg md:min-w-[480px]'>
       <GaugesSVG className='w-14 h-auto' />
-      <span className='text-xl font-semibold py-2 text-pt-purple-400'>{t_error('oops')}</span>
-      <span className='text-pt-purple-100'>{t_error('noVaultsMatchingFilters')}</span>
+      <span className='text-xl font-semibold py-2 text-pt-purple-400'>Oops!</span>
+      <span className='text-pt-purple-100'>There are no vaults that match your filters.</span>
       <div className='flex flex-col gap-2 mt-6'>
         <Button onClick={onClearFilters} color='transparent' fullSized={true}>
-          {t_vaults('clearFilters')}
+          Clear Filters
         </Button>
         <Button onClick={() => setIsSettingsModalOpen(true)} color='transparent' fullSized={true}>
-          {t_vaults('manageVaultLists')}
+          Manage Vault Lists
         </Button>
       </div>
     </div>

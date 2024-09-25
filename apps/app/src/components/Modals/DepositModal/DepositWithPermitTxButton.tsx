@@ -14,7 +14,6 @@ import { useAddRecentTransaction, useChainModal, useConnectModal } from '@rainbo
 import { TransactionButton } from '@shared/react-components'
 import { Button } from '@shared/ui'
 import { useAtomValue } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import { parseUnits, TransactionReceipt } from 'viem'
 import { useAccount } from 'wagmi'
@@ -42,9 +41,6 @@ export const DepositWithPermitTxButton = (props: DepositWithPermitTxButtonProps)
     onSuccessfulDeposit,
     onSuccessfulDepositWithPermit
   } = props
-
-  const t_common = useTranslations('Common')
-  const t_modals = useTranslations('TxModals')
 
   const { openConnectModal } = useConnectModal()
   const { openChainModal } = useChainModal()
@@ -198,7 +194,7 @@ export const DepositWithPermitTxButton = (props: DepositWithPermitTxButtonProps)
   if (depositAmount === 0n) {
     return (
       <Button color='transparent' fullSized={true} disabled={true}>
-        {t_modals('enterAnAmount')}
+        Enter an amount
       </Button>
     )
   }
@@ -207,7 +203,7 @@ export const DepositWithPermitTxButton = (props: DepositWithPermitTxButtonProps)
   if (isDataFetched && modalView === 'main') {
     return (
       <Button onClick={() => setModalView('review')} fullSized={true} disabled={!depositEnabled}>
-        {t_modals('reviewDeposit')}
+        Review Deposit
       </Button>
     )
   }
@@ -221,15 +217,15 @@ export const DepositWithPermitTxButton = (props: DepositWithPermitTxButtonProps)
         isTxSuccess={isSuccessfulDeposit}
         write={sendDepositTransaction}
         txHash={depositTxHash}
-        txDescription={t_modals('depositTx', { symbol: tokenData?.symbol ?? '?' })}
+        txDescription={`${tokenData?.symbol ?? '?'} Deposit`}
         fullSized={true}
         disabled={!depositEnabled}
         openConnectModal={openConnectModal}
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
-        intl={{ base: t_modals, common: t_common }}
+        intl={{ base: undefined, common: undefined }}
       >
-        {t_modals('confirmDeposit')}
+        Confirm Deposit
       </TransactionButton>
     )
   }
@@ -242,15 +238,15 @@ export const DepositWithPermitTxButton = (props: DepositWithPermitTxButtonProps)
       isTxSuccess={isSuccessfulDepositWithPermit}
       write={isApproved ? sendDepositWithPermitTransaction : signApprove}
       txHash={depositWithPermitTxHash}
-      txDescription={t_modals('depositTx', { symbol: tokenData?.symbol ?? '?' })}
+      txDescription={`${tokenData?.symbol ?? '?'} Deposit`}
       fullSized={true}
       disabled={!depositEnabled}
       openConnectModal={openConnectModal}
       openChainModal={openChainModal}
       addRecentTransaction={addRecentTransaction}
-      intl={{ base: t_modals, common: t_common }}
+      intl={{ base: undefined, common: undefined }}
     >
-      {t_modals('confirmDeposit')}
+      Confirm Deposit
     </TransactionButton>
   )
 }

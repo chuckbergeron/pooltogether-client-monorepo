@@ -9,7 +9,6 @@ import { PrizePoolBadge, TokenValue } from '@shared/react-components'
 import { SubgraphDraw } from '@shared/types'
 import { Spinner } from '@shared/ui'
 import { formatBigIntForDisplay, lower, shorten, sortByBigIntDesc, sToMs } from '@shared/utilities'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { Address } from 'viem'
@@ -24,12 +23,10 @@ interface MainViewProps {
 export const MainView = (props: MainViewProps) => {
   const { draw, prizePool } = props
 
-  const t_common = useTranslations('Common')
-
   return (
     <div className='flex flex-col gap-6 mb-6'>
       <MainViewHeader draw={draw} />
-      <PrizePoolBadge chainId={prizePool.chainId} intl={t_common} className='mx-auto' />
+      <PrizePoolBadge chainId={prizePool.chainId} intl={undefined} className='mx-auto' />
       <EligibilityInfo draw={draw} prizePool={prizePool} />
       <DrawTotals draw={draw} prizePool={prizePool} />
       <DrawWinnersTable draw={draw} prizePool={prizePool} />
@@ -44,8 +41,6 @@ interface MainViewHeaderProps {
 const MainViewHeader = (props: MainViewHeaderProps) => {
   const { draw } = props
 
-  const t_common = useTranslations('Common')
-
   const drawDate = new Date(sToMs(draw.prizeClaims[0].timestamp))
   const formattedDrawDate = drawDate.toLocaleTimeString(undefined, {
     month: 'long',
@@ -59,7 +54,7 @@ const MainViewHeader = (props: MainViewHeaderProps) => {
 
   return (
     <div className='flex flex-col mx-auto text-center'>
-      <span className='text-xl font-semibold'>{t_common('drawId', { id: draw.id })}</span>
+      <span className='text-xl font-semibold'>Draw #{draw.id}</span>
       <span className='text-sm text-pt-purple-200'>{formattedDrawDate}</span>
     </div>
   )
@@ -72,8 +67,6 @@ interface EligibilityInfoProps {
 
 const EligibilityInfo = (props: EligibilityInfoProps) => {
   const { draw, prizePool } = props
-
-  const t = useTranslations('Prizes.drawModal')
 
   const { address: userAddress } = useAccount()
 
@@ -89,7 +82,11 @@ const EligibilityInfo = (props: EligibilityInfoProps) => {
   }, [userAddress, allUserEligibleDraws])
 
   if (!!userAddress && isEligible) {
-    return <span className='text-center font-semibold text-pt-teal'>{t('youWereEligible')}</span>
+    return (
+      <span className='text-center font-semibold text-pt-teal'>
+        You were eligible for this draw.
+      </span>
+    )
   }
 
   return <></>
@@ -102,8 +99,6 @@ interface DrawTotalsProps {
 
 const DrawTotals = (props: DrawTotalsProps) => {
   const { draw, prizePool } = props
-
-  const t = useTranslations('Prizes.drawModal')
 
   const { data: prizeToken } = usePrizeTokenData(prizePool)
 
@@ -134,11 +129,9 @@ const DrawTotals = (props: DrawTotalsProps) => {
 
   return (
     <span className='text-center'>
-      {t('drawTotal.beforeValue', { numWallets: uniqueWallets.size })}{' '}
+      This draw had {uniqueWallets.size} unique wallets winning a total of
       <TokenValue token={{ ...prizeToken, amount: totalPrizeAmount }} />{' '}
-      {isOngoing
-        ? t('drawTotal.afterValueOngoing') ?? `in prizes so far.`
-        : t('drawTotal.afterValue') ?? `in prizes.`}
+      {isOngoing ? `in prizes so far.` : `in prizes.`}
     </span>
   )
 }
@@ -151,8 +144,6 @@ interface DrawWinnersTableProps {
 // TODO: highlight grand prizes
 const DrawWinnersTable = (props: DrawWinnersTableProps) => {
   const { draw, prizePool } = props
-
-  const t = useTranslations('Prizes.drawModal')
 
   const { data: tokenData } = usePrizeTokenData(prizePool)
 
@@ -175,8 +166,8 @@ const DrawWinnersTable = (props: DrawWinnersTableProps) => {
   return (
     <div className='flex flex-col w-full gap-2 md:text-center'>
       <div className='flex w-full text-pt-purple-100 font-semibold'>
-        <span className='w-1/2'>{t('winner')}</span>
-        <span className='w-1/2 text-right md:text-center'>{t('prize')}</span>
+        <span className='w-1/2'>Winner</span>
+        <span className='w-1/2 text-right md:text-center'>Prize</span>
       </div>
       {!!tokenData ? (
         <div className='flex flex-col w-full max-h-52 gap-3 overflow-y-auto'>

@@ -8,7 +8,6 @@ import { NetworkIcon, TokenIcon } from '@shared/react-components'
 import { TokenWithLogo } from '@shared/types'
 import { Spinner } from '@shared/ui'
 import { getNiceNetworkNameByChainId } from '@shared/utilities'
-import { useTranslations } from 'next-intl'
 import { useAccount } from 'wagmi'
 import { DelegateForm } from './DelegateForm'
 import { DelegateModalView } from './index'
@@ -20,8 +19,6 @@ interface DelegateModalBodyProps {
 
 export const DelegateModalBody = (props: DelegateModalBodyProps) => {
   const { vault, modalView } = props
-
-  const t = useTranslations('TxModals')
 
   const { address: userAddress } = useAccount()
 
@@ -57,18 +54,16 @@ export const DelegateModalBody = (props: DelegateModalBodyProps) => {
               <NetworkIcon chainId={vault.chainId} className='absolute top-4 left-4 h-3 w-3' />
             </div>
             <span className='hidden md:inline-block'>
-              {t('delegateFrom', { name: vaultName, network: networkName })}
+              Delegate your {vaultName} on {networkName}
             </span>
-            <span className='inline-block md:hidden text-sm'>
-              {t('delegateFromShort', { name: vaultName })}
-            </span>
+            <span className='inline-block md:hidden text-sm'>Delegate your {vaultName}</span>
           </div>
         )}
 
         <span className='text-xs sm:text-sm my-2 font-normal text-pt-purple-200 block'>
           {!!vaultName && isDelegatedToSelf
-            ? t('delegateSelfDescription', { tokens: vaultToken })
-            : t('delegateDescription', { tokens: vaultToken })}
+            ? `You are delegating to yourself. Any prize your ${vaultToken} deposit wins will go to your wallet.`
+            : `The delegated address receives any prizes your ${vaultToken} deposit wins.`}
         </span>
 
         {!vaultName && <Spinner />}

@@ -8,7 +8,6 @@ import { PrizePoolBadge } from '@shared/react-components'
 import { Spinner } from '@shared/ui'
 import { getNiceNetworkNameByChainId, lower } from '@shared/utilities'
 import { useAtomValue } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { NetworkFees, NetworkFeesProps } from '../../NetworkFees'
 import { WithdrawForm, withdrawFormTokenAddressAtom } from '../WithdrawForm'
 
@@ -18,9 +17,6 @@ interface MainViewProps {
 
 export const MainView = (props: MainViewProps) => {
   const { vault } = props
-
-  const t_common = useTranslations('Common')
-  const t_txModals = useTranslations('TxModals')
 
   const { data: shareData } = useVaultShareData(vault)
   const { data: vaultTokenAddress } = useVaultTokenAddress(vault)
@@ -46,20 +42,16 @@ export const MainView = (props: MainViewProps) => {
       <span className='text-lg font-semibold text-center'>
         {!!vaultName && (
           <span className='hidden md:inline-block'>
-            {t_txModals('withdrawFrom', { name: vaultName, network: networkName })}
+            Withdraw from {vaultName} on {networkName}
           </span>
         )}
-        {!!vaultName && (
-          <span className='inline-block md:hidden'>
-            {t_txModals('withdrawFromShort', { name: vaultName })}
-          </span>
-        )}
+        {!!vaultName && <span className='inline-block md:hidden'>Withdraw from {vaultName}</span>}
         {!vaultName && <Spinner />}
       </span>
       <PrizePoolBadge
         chainId={vault.chainId}
         hideBorder={true}
-        intl={t_common}
+        intl={undefined}
         className='!py-1 mx-auto'
       />
       {/* TODO: add flow for when exchange rate cannot be found */}

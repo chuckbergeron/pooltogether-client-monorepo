@@ -15,7 +15,6 @@ import { ApprovalTooltip, TransactionButton } from '@shared/react-components'
 import { Button } from '@shared/ui'
 import { DOLPHIN_ADDRESS, lower, ZAP_SETTINGS } from '@shared/utilities'
 import { useAtomValue } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
 import { Address, isAddress, parseUnits, TransactionReceipt } from 'viem'
 import { useAccount } from 'wagmi'
@@ -43,10 +42,6 @@ export const DepositZapTxButton = (props: DepositZapTxButtonProps) => {
     onSuccessfulApproval,
     onSuccessfulDepositWithZap
   } = props
-
-  const t_common = useTranslations('Common')
-  const t_modals = useTranslations('TxModals')
-  const t_tooltips = useTranslations('Tooltips')
 
   const { openConnectModal } = useConnectModal()
   const { openChainModal } = useChainModal()
@@ -222,12 +217,12 @@ export const DepositZapTxButton = (props: DepositZapTxButtonProps) => {
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
         innerClassName='flex gap-2 items-center'
-        intl={{ base: t_modals, common: t_common }}
+        intl={{ base: undefined, common: undefined }}
       >
-        {t_modals('approvalButton', { symbol: inputToken?.symbol ?? '?' })}
+        Approve {inputToken?.symbol ?? '?'}
         <ApprovalTooltip
           tokenSymbol={inputToken.symbol}
-          intl={t_tooltips}
+          intl={undefined}
           className='whitespace-normal'
         />
       </TransactionButton>
@@ -238,7 +233,7 @@ export const DepositZapTxButton = (props: DepositZapTxButtonProps) => {
   if (isDataFetched && modalView === 'main') {
     return (
       <Button onClick={() => setModalView('review')} fullSized={true} disabled={!depositEnabled}>
-        {t_modals('reviewDeposit')}
+        Review Deposit
       </Button>
     )
   }
@@ -247,7 +242,7 @@ export const DepositZapTxButton = (props: DepositZapTxButtonProps) => {
   if (isFetchingZapArgs) {
     return (
       <Button fullSized={true} disabled={true}>
-        {t_modals('findingZapRoute')}
+        Finding zap route...
       </Button>
     )
   }
@@ -256,7 +251,7 @@ export const DepositZapTxButton = (props: DepositZapTxButtonProps) => {
   if (!isFetchingZapArgs && !amountOut) {
     return (
       <Button fullSized={true} disabled={true}>
-        {t_modals('noZapRouteFound')}
+        No zap route available
       </Button>
     )
   }
@@ -269,15 +264,15 @@ export const DepositZapTxButton = (props: DepositZapTxButtonProps) => {
       isTxSuccess={isSuccessfulDepositZap}
       write={sendDepositZapTransaction}
       txHash={depositZapTxHash}
-      txDescription={t_modals('depositTx', { symbol: inputToken?.symbol ?? '?' })}
+      txDescription={`${inputToken?.symbol ?? '?'} Deposit`}
       fullSized={true}
       disabled={!depositEnabled}
       openConnectModal={openConnectModal}
       openChainModal={openChainModal}
       addRecentTransaction={addRecentTransaction}
-      intl={{ base: t_modals, common: t_common }}
+      intl={{ base: undefined, common: undefined }}
     >
-      {t_modals('confirmDeposit')}
+      Confirm Deposit
     </TransactionButton>
   )
 }

@@ -4,16 +4,11 @@ import {
   SparklesIcon
 } from '@heroicons/react/24/outline'
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline'
-import {
-  SUPPORTED_CURRENCIES,
-  useSelectedCurrency,
-  useSelectedLanguage
-} from '@shared/generic-react-hooks'
+import { SUPPORTED_CURRENCIES, useSelectedCurrency } from '@shared/generic-react-hooks'
 import { ClipboardListIcon } from '@shared/react-components'
 import { BasicIcon } from '@shared/ui'
 import { LINKS } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { ReactNode } from 'react'
 import { useSettingsModalView } from '@hooks/useSettingsModalView'
 import { SettingsModalOption } from '..'
@@ -26,56 +21,45 @@ interface MenuViewProps {
 export const MenuView = (props: MenuViewProps) => {
   const { disable, hide } = props
 
-  const t = useTranslations('Settings')
-
   const { setView: setSettingsModalView } = useSettingsModalView()
 
   const { selectedCurrency } = useSelectedCurrency()
-  const { selectedLanguage } = useSelectedLanguage()
 
   return (
     <div className='flex flex-col gap-4'>
       <SettingsMenuSection
-        title={t('customizeExperience')}
+        title={'Customize Your Experience'}
         items={[
           {
-            iconContent: selectedLanguage.toUpperCase(),
-            iconClassName: '!text-base font-semibold',
-            title: t('changeLanguage'),
-            onClick: () => setSettingsModalView('language'),
-            disabled: disable?.includes('language'),
-            hidden: hide?.includes('language')
-          },
-          {
             iconContent: SUPPORTED_CURRENCIES[selectedCurrency].symbol,
-            title: t('changeCurrency'),
+            title: 'Change currency',
             onClick: () => setSettingsModalView('currency'),
             disabled: disable?.includes('currency'),
             hidden: hide?.includes('currency')
           },
           {
             iconContent: <ClipboardListIcon className='h-6 w-6 text-pt-purple-100' />,
-            title: t('manageVaultLists'),
+            title: 'Manage vault lists',
             onClick: () => setSettingsModalView('vaultLists'),
             disabled: disable?.includes('vaultLists'),
             hidden: hide?.includes('vaultLists')
           },
           {
             iconContent: <CubeTransparentIcon className='h-6 w-6 text-pt-purple-100' />,
-            title: t('setCustomRPCs'),
+            title: 'Set Custom RPCs',
             onClick: () => setSettingsModalView('customRPCs'),
             disabled: disable?.includes('customRPCs'),
             hidden: hide?.includes('customRPCs')
           },
           {
             iconContent: <SparklesIcon className='h-6 w-6 text-pt-purple-100' />,
-            title: t('viewEcosystem'),
+            title: 'View ecosystem',
             onClick: () => window.open(LINKS.ecosystem),
             isExternalLink: true
           },
           {
             iconContent: <EllipsisHorizontalIcon className='h-6 w-6 text-pt-purple-100' />,
-            title: t('otherSettings'),
+            title: 'Other settings',
             onClick: () => setSettingsModalView('misc'),
             disabled: disable?.includes('misc'),
             hidden: hide?.includes('misc')
@@ -83,12 +67,12 @@ export const MenuView = (props: MenuViewProps) => {
         ]}
       />
       <SettingsMenuSection
-        title={t('getHelp')}
+        title={'Get help'}
         items={[
           {
             iconContent: '?',
             iconClassName: 'font-semibold',
-            title: t('getHelpWithCabana'),
+            title: 'Get Help w/ Using Cabana',
             onClick: () => window.open(LINKS.docs),
             isExternalLink: true
           }

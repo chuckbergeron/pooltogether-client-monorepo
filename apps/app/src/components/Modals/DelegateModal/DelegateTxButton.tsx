@@ -7,7 +7,6 @@ import {
 import { useAddRecentTransaction, useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
 import { TransactionButton } from '@shared/react-components'
 import { useAtomValue } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
 import { Address, isAddress, TransactionReceipt } from 'viem'
 import { useAccount } from 'wagmi'
@@ -24,9 +23,6 @@ interface DelegateTxButtonProps {
 
 export const DelegateTxButton = (props: DelegateTxButtonProps) => {
   const { twabController, vault, setModalView, setDelegateTxHash, onSuccessfulDelegation } = props
-
-  const t_txModals = useTranslations('TxModals')
-  const t_common = useTranslations('Common')
 
   const { openConnectModal } = useConnectModal()
   const { openChainModal } = useChainModal()
@@ -95,16 +91,16 @@ export const DelegateTxButton = (props: DelegateTxButtonProps) => {
       isTxSuccess={isSuccessfulDelegation}
       write={sendDelegateTransaction}
       txHash={delegateTxHash}
-      txDescription={t_txModals('delegateTx', { symbol: tokenData?.symbol ?? '?' })}
+      txDescription={`${tokenData?.symbol ?? '?'} Delegation`}
       fullSized={true}
       disabled={!delegateEnabled}
       color={!delegateEnabled && chain?.id === vault.chainId ? 'transparent' : 'teal'}
       openConnectModal={openConnectModal}
       openChainModal={openChainModal}
       addRecentTransaction={addRecentTransaction}
-      intl={{ base: t_txModals, common: t_common }}
+      intl={{ base: undefined, common: undefined }}
     >
-      {t_txModals('updateDelegatedAddress')}
+      Update delegated address
     </TransactionButton>
   )
 }

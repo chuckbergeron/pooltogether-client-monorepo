@@ -15,7 +15,6 @@ import {
   ZAP_SETTINGS,
   zapRouterABI
 } from '@shared/utilities'
-import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import { zeroAddress } from 'viem'
 import { useAccount } from 'wagmi'
@@ -36,8 +35,6 @@ export interface NetworkFeesProps {
 export const NetworkFees = (props: NetworkFeesProps) => {
   const { vault, show } = props
 
-  const t = useTranslations('TxModals.fees')
-
   const { address: userAddress } = useAccount()
 
   const { data: tokenAddress } = useVaultTokenAddress(vault)
@@ -49,12 +46,12 @@ export const NetworkFees = (props: NetworkFeesProps) => {
 
   return (
     <div className='flex flex-col items-center gap-2 font-semibold'>
-      <span className='text-xs text-pt-purple-100 md:text-sm'>{t('title')}</span>
+      <span className='text-xs text-pt-purple-100 md:text-sm'>Estimated Network Fees</span>
       {!!vault && !!tokenAddress ? (
         <div className='flex flex-col text-xs'>
           {(!show || show.includes('approve')) && (
             <TXFeeEstimate
-              name={t('approval')}
+              name={'Approval'}
               chainId={vault.chainId}
               tx={{
                 address: tokenAddress,
@@ -67,7 +64,7 @@ export const NetworkFees = (props: NetworkFeesProps) => {
           )}
           {(!show || show.includes('deposit')) && (
             <TXFeeEstimate
-              name={t('deposit')}
+              name={'Deposit'}
               chainId={vault.chainId}
               tx={{
                 address: vault.address,
@@ -81,7 +78,7 @@ export const NetworkFees = (props: NetworkFeesProps) => {
           )}
           {show?.includes('depositWithPermit') && (
             <TXFeeEstimate
-              name={t('deposit')}
+              name={'Deposit'}
               chainId={vault.chainId}
               tx={{
                 address: vault.address,
@@ -102,7 +99,7 @@ export const NetworkFees = (props: NetworkFeesProps) => {
           )}
           {show?.includes('depositWithZap') && !!ZAP_SETTINGS[vault.chainId] && (
             <TXFeeEstimate
-              name={t('deposit')}
+              name={'Deposit'}
               chainId={vault.chainId}
               tx={{
                 address: ZAP_SETTINGS[vault.chainId].zapRouter,
@@ -151,7 +148,7 @@ export const NetworkFees = (props: NetworkFeesProps) => {
           )}
           {(!show || show.includes('withdraw')) && (
             <TXFeeEstimate
-              name={t('withdrawal')}
+              name={'Withdrawal'}
               chainId={vault.chainId}
               tx={{
                 address: vault.address,
@@ -165,7 +162,7 @@ export const NetworkFees = (props: NetworkFeesProps) => {
           )}
           {show?.includes('withdrawWithZap') && !!ZAP_SETTINGS[vault.chainId] && (
             <TXFeeEstimate
-              name={t('withdrawal')}
+              name={'Withdrawal'}
               chainId={vault.chainId}
               tx={{
                 address: ZAP_SETTINGS[vault.chainId].zapRouter,
@@ -216,7 +213,7 @@ export const NetworkFees = (props: NetworkFeesProps) => {
           )}
           {(!show || show.includes('delegation')) && !!twabControllerAddress && (
             <TXFeeEstimate
-              name={t('delegation')}
+              name={'Delegation'}
               chainId={vault.chainId}
               tx={{
                 address: twabControllerAddress,

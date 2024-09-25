@@ -17,7 +17,6 @@ import { ApprovalTooltip, TransactionButton } from '@shared/react-components'
 import { Button } from '@shared/ui'
 import { ZAP_SETTINGS } from '@shared/utilities'
 import { useAtomValue } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
 import { isAddress, parseUnits, TransactionReceipt } from 'viem'
 import { useAccount } from 'wagmi'
@@ -45,10 +44,6 @@ export const WithdrawZapTxButton = (props: WithdrawZapTxButtonProps) => {
     onSuccessfulApproval,
     onSuccessfulWithdrawalWithZap
   } = props
-
-  const t_common = useTranslations('Common')
-  const t_modals = useTranslations('TxModals')
-  const t_tooltips = useTranslations('Tooltips')
 
   const { openConnectModal } = useConnectModal()
   const { openChainModal } = useChainModal()
@@ -199,7 +194,7 @@ export const WithdrawZapTxButton = (props: WithdrawZapTxButtonProps) => {
   if (withdrawAmount === 0n) {
     return (
       <Button color='transparent' fullSized={true} disabled={true}>
-        {t_modals('enterAnAmount')}
+        Enter an amount
       </Button>
     )
   }
@@ -213,19 +208,19 @@ export const WithdrawZapTxButton = (props: WithdrawZapTxButtonProps) => {
         isTxSuccess={isSuccessfulApproval}
         write={sendApproveTransaction}
         txHash={approvalTxHash}
-        txDescription={t_modals('approvalTx', { symbol: share.symbol ?? '?' })}
+        txDescription={`${share.symbol ?? '?'} Approval`}
         fullSized={true}
         disabled={!approvalEnabled}
         openConnectModal={openConnectModal}
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
         innerClassName='flex gap-2 items-center'
-        intl={{ base: t_modals, common: t_common }}
+        intl={{ base: undefined, common: undefined }}
       >
-        {t_modals('approvalButton', { symbol: share.symbol ?? '?' })}
+        Approve {share.symbol ?? '?'}
         <ApprovalTooltip
           tokenSymbol={share.symbol}
-          intl={t_tooltips}
+          intl={undefined}
           className='whitespace-normal'
         />
       </TransactionButton>
@@ -236,7 +231,7 @@ export const WithdrawZapTxButton = (props: WithdrawZapTxButtonProps) => {
   if (isDataFetched && modalView === 'main') {
     return (
       <Button onClick={() => setModalView('review')} fullSized={true} disabled={!withdrawEnabled}>
-        {t_modals('reviewWithdrawal')}
+        Review Withdrawal
       </Button>
     )
   }
@@ -245,7 +240,7 @@ export const WithdrawZapTxButton = (props: WithdrawZapTxButtonProps) => {
   if (isFetchingZapArgs) {
     return (
       <Button fullSized={true} disabled={true}>
-        {t_modals('findingZapRoute')}
+        Finding zap route...
       </Button>
     )
   }
@@ -254,7 +249,7 @@ export const WithdrawZapTxButton = (props: WithdrawZapTxButtonProps) => {
   if (!isFetchingZapArgs && !amountOut) {
     return (
       <Button fullSized={true} disabled={true}>
-        {t_modals('noZapRouteFound')}
+        No zap route available
       </Button>
     )
   }
@@ -267,15 +262,15 @@ export const WithdrawZapTxButton = (props: WithdrawZapTxButtonProps) => {
       isTxSuccess={isSuccessfulWithdrawZap}
       write={sendWithdrawZapTransaction}
       txHash={withdrawZapTxHash}
-      txDescription={t_modals('withdrawTx', { symbol: share?.symbol ?? '?' })}
+      txDescription={`${share?.symbol ?? '?'} Withdrawal`}
       fullSized={true}
       disabled={!withdrawEnabled}
       openConnectModal={openConnectModal}
       openChainModal={openChainModal}
       addRecentTransaction={addRecentTransaction}
-      intl={{ base: t_modals, common: t_common }}
+      intl={{ base: undefined, common: undefined }}
     >
-      {t_modals('confirmWithdrawal')}
+      Confirm Withdrawal
     </TransactionButton>
   )
 }

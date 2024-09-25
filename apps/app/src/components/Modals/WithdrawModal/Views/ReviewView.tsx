@@ -10,7 +10,6 @@ import { Spinner } from '@shared/ui'
 import { formatBigIntForDisplay, formatNumberForDisplay, lower } from '@shared/utilities'
 import classNames from 'classnames'
 import { useAtomValue } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { Address } from 'viem'
 import { NetworkFees, NetworkFeesProps } from '../../NetworkFees'
 import {
@@ -28,9 +27,6 @@ interface ReviewViewProps {
 export const ReviewView = (props: ReviewViewProps) => {
   const { vault } = props
 
-  const t_common = useTranslations('Common')
-  const t_modals = useTranslations('TxModals')
-
   const formTokenAddress = useAtomValue(withdrawFormTokenAddressAtom)
 
   const { data: vaultTokenAddress } = useVaultTokenAddress(vault)
@@ -46,11 +42,11 @@ export const ReviewView = (props: ReviewViewProps) => {
 
   return (
     <div className='flex flex-col gap-6'>
-      <span className='text-xl font-semibold text-center'>{t_modals('confirmWithdrawal')}</span>
+      <span className='text-xl font-semibold text-center'>Confirm Withdrawal</span>
       <PrizePoolBadge
         chainId={vault.chainId}
         hideBorder={true}
-        intl={t_common}
+        intl={undefined}
         className='!py-1 mx-auto'
       />
       <BasicWithdrawForm vault={vault} />
@@ -65,8 +61,6 @@ interface BasicWithdrawFormProps {
 
 const BasicWithdrawForm = (props: BasicWithdrawFormProps) => {
   const { vault } = props
-
-  const t_txModals = useTranslations('TxModals')
 
   const formShareAmount = useAtomValue(withdrawFormShareAmountAtom)
   const formTokenAddress = useAtomValue(withdrawFormTokenAddressAtom)
@@ -112,7 +106,7 @@ const BasicWithdrawForm = (props: BasicWithdrawFormProps) => {
       {!!withdrawZapMinReceived && (
         <div className='flex flex-col p-2 text-xs text-pt-purple-100'>
           <div className='flex gap-2 items-center'>
-            <span className='font-semibold'>{t_txModals('priceImpact')}</span>
+            <span className='font-semibold'>Price Impact</span>
             <span className='h-3 grow border-b border-dashed border-pt-purple-50/30' />
             {withdrawZapPriceImpact !== undefined ? (
               <span>{`${withdrawZapPriceImpact > 0 ? '+' : ''}${formatNumberForDisplay(
@@ -124,7 +118,7 @@ const BasicWithdrawForm = (props: BasicWithdrawFormProps) => {
             )}
           </div>
           <div className='flex gap-2 items-center'>
-            <span className='font-semibold'>{t_txModals('minimumReceived')}</span>
+            <span className='font-semibold'>Minimum Received</span>
             <span className='h-3 grow border-b border-dashed border-pt-purple-50/30' />
             <span>
               {formatBigIntForDisplay(withdrawZapMinReceived, tokenInfo.decimals, {

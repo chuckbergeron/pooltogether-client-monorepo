@@ -10,7 +10,6 @@ import { AlertIcon, PrizePoolBadge } from '@shared/react-components'
 import { Spinner } from '@shared/ui'
 import { DOLPHIN_ADDRESS, getNiceNetworkNameByChainId, lower } from '@shared/utilities'
 import { useAtomValue } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { walletSupportsPermit } from 'src/utils'
 import { useAccount } from 'wagmi'
 import { NetworkFees, NetworkFeesProps } from '../../NetworkFees'
@@ -28,9 +27,6 @@ interface MainViewProps {
 
 export const MainView = (props: MainViewProps) => {
   const { vault, prizePool } = props
-
-  const t_common = useTranslations('Common')
-  const t_txModals = useTranslations('TxModals')
 
   const { connector } = useAccount()
 
@@ -71,20 +67,16 @@ export const MainView = (props: MainViewProps) => {
       <span className='text-lg font-semibold text-center'>
         {!!vaultName && (
           <span className='hidden md:inline-block'>
-            {t_txModals('depositTo', { name: vaultName, network: networkName })}
+            Deposit to {vaultName} on {networkName}
           </span>
         )}
-        {!!vaultName && (
-          <span className='inline-block md:hidden'>
-            {t_txModals('depositToShort', { name: vaultName })}
-          </span>
-        )}
+        {!!vaultName && <span className='inline-block md:hidden'>Deposit to {vaultName}</span>}
         {!vaultName && <Spinner />}
       </span>
       <PrizePoolBadge
         chainId={vault.chainId}
         hideBorder={true}
-        intl={t_common}
+        intl={undefined}
         className='!py-1 mx-auto'
       />
       {/* TODO: add flow for when exchange rate cannot be found */}
@@ -121,10 +113,10 @@ const RisksDisclaimer = (props: RisksDisclaimerProps) => {
         <span className='text-xs font-semibold lg:text-sm'>Learn about the risks</span>
       </div>
       <span className='text-xs lg:text-center lg:text-sm'>
-        PoolTogether is a permissionless protocol. Prize vaults can be deployed by anyone. Make sure you know what you are depositing into.
-
+        PoolTogether is a permissionless protocol. Prize vaults can be deployed by anyone. Make sure
+        you know what you are depositing into.
         <a href={vaultHref} target='_blank' className='text-pt-purple-300'>
-        Learn more about this prize vault.
+          Learn more about this prize vault.
         </a>
       </span>
     </div>

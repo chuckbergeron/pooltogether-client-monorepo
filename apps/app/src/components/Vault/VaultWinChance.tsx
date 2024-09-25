@@ -5,7 +5,6 @@ import {
 } from '@generationsoftware/hyperstructure-react-hooks'
 import { Spinner, Tooltip } from '@shared/ui'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 import { useVaultWinChance } from '@hooks/useVaultWinChance'

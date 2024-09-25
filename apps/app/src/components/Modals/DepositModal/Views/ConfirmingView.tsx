@@ -3,7 +3,6 @@ import { useVaultShareData } from '@generationsoftware/hyperstructure-react-hook
 import { PrizePoolBadge } from '@shared/react-components'
 import { Button, ExternalLink, Spinner } from '@shared/ui'
 import { getBlockExplorerName, getBlockExplorerUrl } from '@shared/utilities'
-import { useTranslations } from 'next-intl'
 
 interface ConfirmingViewProps {
   vault: Vault
@@ -14,24 +13,21 @@ interface ConfirmingViewProps {
 export const ConfirmingView = (props: ConfirmingViewProps) => {
   const { vault, txHash, closeModal } = props
 
-  const t_common = useTranslations('Common')
-  const t_modals = useTranslations('TxModals')
-
   const { data: share } = useVaultShareData(vault)
 
   const name = getBlockExplorerName(vault.chainId)
 
   return (
     <div className='flex flex-col gap-6'>
-      <span className='text-lg font-semibold text-center'>{t_modals('submissionNotice')}</span>
+      <span className='text-lg font-semibold text-center'>Transaction Submitted</span>
       <PrizePoolBadge
         chainId={vault.chainId}
         hideBorder={true}
-        intl={t_common}
+        intl={undefined}
         className='!py-1 mx-auto'
       />
       <span className='text-sm text-center md:text-base'>
-        {t_modals('depositingInto', { vault: share?.symbol ?? '?' })}
+        Depositing into {share?.symbol ?? '?'}
       </span>
       <Spinner size='lg' className='mx-auto after:border-y-pt-teal' />
       <div className='flex flex-col w-full justify-end h-24 gap-4 md:h-36 md:gap-6'>
@@ -41,11 +37,11 @@ export const ConfirmingView = (props: ConfirmingViewProps) => {
             size='sm'
             className='mx-auto text-pt-purple-100'
           >
-            {t_common('viewOn', { name })}
+            View on {name}
           </ExternalLink>
         )}
         <Button fullSized={true} color='transparent' onClick={closeModal}>
-          {t_common('close')}
+          Close
         </Button>
       </div>
     </div>

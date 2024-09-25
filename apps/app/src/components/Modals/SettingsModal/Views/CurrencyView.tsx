@@ -1,7 +1,6 @@
 import { CheckIcon } from '@heroicons/react/24/outline'
 import { CURRENCY_ID, SUPPORTED_CURRENCIES, useSelectedCurrency } from '@shared/generic-react-hooks'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useSettingsModalView } from '@hooks/useSettingsModalView'
 
 interface CurrencyViewProps {
@@ -11,14 +10,12 @@ interface CurrencyViewProps {
 export const CurrencyView = (props: CurrencyViewProps) => {
   const { onCurrencyChange } = props
 
-  const t = useTranslations('Settings')
-
   const currencies = Object.keys(SUPPORTED_CURRENCIES) as CURRENCY_ID[]
 
   return (
     <div className='flex flex-col items-center gap-4 px-4'>
       <span className='textl-lg font-semibold text-pt-purple-50 order-first md:text-xl'>
-        {t('customizeCurrency')}
+        Customize Currency
       </span>
       {currencies.map((id) => {
         return <CurrencyItem key={`curr-item-${id}`} id={id} onSelect={onCurrencyChange} />

@@ -13,7 +13,6 @@ import { useAddRecentTransaction, useChainModal, useConnectModal } from '@rainbo
 import { TransactionButton } from '@shared/react-components'
 import { Button } from '@shared/ui'
 import { useAtomValue } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
 import { Address, parseUnits } from 'viem'
 import { useAccount } from 'wagmi'
@@ -39,9 +38,6 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
     refetchUserBalances,
     onSuccessfulWithdrawal
   } = props
-
-  const t_common = useTranslations('Common')
-  const t_modals = useTranslations('TxModals')
 
   const { openConnectModal } = useConnectModal()
   const { openChainModal } = useChainModal()
@@ -141,13 +137,13 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
   if (withdrawAmount === 0n) {
     return (
       <Button color='transparent' fullSized={true} disabled={true}>
-        {t_modals('enterAnAmount')}
+        Enter an amount
       </Button>
     )
   } else if (!isDisconnected && chain?.id === vault.chainId && modalView === 'main') {
     return (
       <Button onClick={() => setModalView('review')} fullSized={true} disabled={!withdrawEnabled}>
-        {t_modals('reviewWithdrawal')}
+        Review Withdrawal
       </Button>
     )
   } else {
@@ -158,15 +154,15 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
         isTxSuccess={isSuccessfulWithdrawal}
         write={sendRedeemTransaction}
         txHash={withdrawTxHash}
-        txDescription={t_modals('withdrawTx', { symbol: tokenData?.symbol ?? '?' })}
+        txDescription={`${tokenData?.symbol ?? '?'} Withdrawal`}
         fullSized={true}
         disabled={!withdrawEnabled}
         openConnectModal={openConnectModal}
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
-        intl={{ base: t_modals, common: t_common }}
+        intl={{ base: undefined, common: undefined }}
       >
-        {t_modals('confirmWithdrawal')}
+        Confirm Withdrawal
       </TransactionButton>
     )
   }

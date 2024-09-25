@@ -30,7 +30,6 @@ import {
 } from '@shared/utilities'
 import classNames from 'classnames'
 import { atom, useAtom, useSetAtom } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { useEffect, useMemo, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { getRoundedDownFormattedTokenAmount } from 'src/utils'
@@ -55,9 +54,6 @@ export interface WithdrawFormProps {
 
 export const WithdrawForm = (props: WithdrawFormProps) => {
   const { vault, showInputInfoRows } = props
-
-  const t_txModals = useTranslations('TxModals')
-  const t_errors = useTranslations('Error.formErrors')
 
   const { address: userAddress } = useAccount()
 
@@ -334,7 +330,7 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
                   parseFloat(v)) ||
               !isFetchedVaultBalance ||
               !vaultBalance ||
-              t_errors('notEnoughTokens', { symbol: shareInputData?.symbol ?? '?' })
+              `Not enough ${shareInputData?.symbol ?? '?'} in wallet`
           }}
           onChange={handleShareAmountChange}
           showInfoRow={showInputInfoRows}
@@ -359,7 +355,7 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
         {isZappingAndSwapping && !!withdrawAmount && (
           <div className='flex flex-col p-2 text-xs text-pt-purple-100'>
             <div className='flex gap-2 items-center'>
-              <span className='font-semibold'>{t_txModals('priceImpact')}</span>
+              <span className='font-semibold'>Price Impact</span>
               <span className='h-3 grow border-b border-dashed border-pt-purple-50/30' />
               {priceImpact !== undefined ? (
                 <span>{`${priceImpact > 0 ? '+' : ''}${formatNumberForDisplay(priceImpact, {
@@ -370,7 +366,7 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
               )}
             </div>
             <div className='flex gap-2 items-center'>
-              <span className='font-semibold'>{t_txModals('minimumReceived')}</span>
+              <span className='font-semibold'>Minimum Received</span>
               <span className='h-3 grow border-b border-dashed border-pt-purple-50/30' />
               {!!zapAmountOut && !!tokenInputData ? (
                 <span>

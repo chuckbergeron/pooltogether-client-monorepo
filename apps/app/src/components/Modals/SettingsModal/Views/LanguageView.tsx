@@ -1,7 +1,6 @@
 import { CheckIcon } from '@heroicons/react/24/outline'
 import { LANGUAGE_ID, SUPPORTED_LANGUAGES, useSelectedLanguage } from '@shared/generic-react-hooks'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useSettingsModalView } from '@hooks/useSettingsModalView'
 
 interface LanguageViewProps {
@@ -12,8 +11,6 @@ interface LanguageViewProps {
 export const LanguageView = (props: LanguageViewProps) => {
   const { locales, onLanguageChange } = props
 
-  const t = useTranslations('Settings')
-
   const allLanguages = Object.keys(SUPPORTED_LANGUAGES) as LANGUAGE_ID[]
   const languages =
     !!locales && locales.length > 0
@@ -23,7 +20,7 @@ export const LanguageView = (props: LanguageViewProps) => {
   return (
     <div className='flex flex-col items-center gap-4 px-4'>
       <span className='text-lg font-semibold text-pt-purple-50 order-first md:text-xl'>
-        {t('customizeLanguage')}
+        Customize Language
       </span>
       {languages.map((id) => {
         return <LanguageItem key={`lang-item-${id}`} id={id} onSelect={onLanguageChange} />

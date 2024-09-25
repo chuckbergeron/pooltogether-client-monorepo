@@ -20,7 +20,6 @@ import {
 } from '@shared/utilities'
 import classNames from 'classnames'
 import { useAtomValue } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import { walletSupportsPermit } from 'src/utils'
 import { Address } from 'viem'
@@ -42,9 +41,6 @@ interface ReviewViewProps {
 
 export const ReviewView = (props: ReviewViewProps) => {
   const { vault, prizePool } = props
-
-  const t_common = useTranslations('Common')
-  const t_txModals = useTranslations('TxModals')
 
   const { connector } = useAccount()
 
@@ -75,11 +71,11 @@ export const ReviewView = (props: ReviewViewProps) => {
 
   return (
     <div className='flex flex-col gap-6'>
-      <span className='text-xl font-semibold text-center'>{t_txModals('confirmDeposit')}</span>
+      <span className='text-xl font-semibold text-center'>Confirm Deposit</span>
       <PrizePoolBadge
         chainId={vault.chainId}
         hideBorder={true}
-        intl={t_common}
+        intl={undefined}
         className='!py-1 mx-auto'
       />
       <BasicDepositForm vault={vault} />
@@ -97,8 +93,6 @@ interface BasicDepositFormProps {
 
 const BasicDepositForm = (props: BasicDepositFormProps) => {
   const { vault } = props
-
-  const t_txModals = useTranslations('TxModals')
 
   const formTokenAddress = useAtomValue(depositFormTokenAddressAtom)
   const formTokenAmount = useAtomValue(depositFormTokenAmountAtom)
@@ -162,7 +156,7 @@ const BasicDepositForm = (props: BasicDepositFormProps) => {
       {!!depositZapMinReceived && (
         <div className='flex flex-col p-2 text-xs text-pt-purple-100'>
           <div className='flex gap-2 items-center'>
-            <span className='font-semibold'>{t_txModals('priceImpact')}</span>
+            <span className='font-semibold'>Price Impact</span>
             <span className='h-3 grow border-b border-dashed border-pt-purple-50/30' />
             {depositZapPriceImpact !== undefined ? (
               <span>{`${depositZapPriceImpact > 0 ? '+' : ''}${formatNumberForDisplay(
@@ -174,7 +168,7 @@ const BasicDepositForm = (props: BasicDepositFormProps) => {
             )}
           </div>
           <div className='flex gap-2 items-center'>
-            <span className='font-semibold'>{t_txModals('minimumReceived')}</span>
+            <span className='font-semibold'>Minimum Received</span>
             <span className='h-3 grow border-b border-dashed border-pt-purple-50/30' />
             <span>
               {formatBigIntForDisplay(depositZapMinReceived, shareInfo.decimals, {

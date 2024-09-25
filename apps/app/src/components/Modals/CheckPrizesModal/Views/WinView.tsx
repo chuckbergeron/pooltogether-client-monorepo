@@ -10,7 +10,6 @@ import { Button } from '@shared/ui'
 import { getSimpleDate, NATIVE_ASSETS, NETWORK } from '@shared/utilities'
 import classNames from 'classnames'
 import Lottie from 'lottie-react'
-import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'
 import { Address, formatUnits, parseEther } from 'viem'
 import { useAccount } from 'wagmi'
@@ -25,8 +24,6 @@ interface WinViewProps {
 
 export const WinView = (props: WinViewProps) => {
   const { prizePools, draws, wins, onGoToAccount } = props
-
-  const t = useTranslations('Account.prizeChecking')
 
   const { address: userAddress } = useAccount()
 
@@ -116,7 +113,7 @@ export const WinView = (props: WinViewProps) => {
         onComplete={() => setIsAnimationComplete(true)}
       />
       <Button onClick={onGoToAccount} className={classNames('mx-auto', transitionIn)}>
-        {t('viewAccount')}
+        View Your Account
       </Button>
     </div>
   )
@@ -130,14 +127,12 @@ interface HeaderProps {
 const Header = (props: HeaderProps) => {
   const { token, className } = props
 
-  const t = useTranslations('Account.prizeChecking')
-
   const { selectedCurrency } = useSelectedCurrency()
 
   return (
     <div className={classNames('flex flex-col items-center text-center', className)}>
       <span className='text-3xl font-grotesk font-medium text-gray-100'>
-        {t('youWonX')} <TokenValue token={token} hideZeroes={true} />!
+        You won <TokenValue token={token} hideZeroes={true} />!
       </span>
       {selectedCurrency !== 'eth' && (
         <span className='text-pt-purple-100'>
@@ -158,8 +153,6 @@ interface PrizeRowProps {
 const PrizeRow = (props: PrizeRowProps) => {
   const { chainId, timestamp, prizeToken, className } = props
 
-  const t = useTranslations('Account.prizeChecking')
-
   return (
     <div
       className={classNames(
@@ -172,7 +165,7 @@ const PrizeRow = (props: PrizeRowProps) => {
         <span className='text-sm text-pt-purple-300'>{getSimpleDate(timestamp)}</span>
       </div>
       <span className='font-medium'>
-        <TokenValue token={prizeToken} /> {t('xWon')}
+        <TokenValue token={prizeToken} /> Won!
       </span>
     </div>
   )

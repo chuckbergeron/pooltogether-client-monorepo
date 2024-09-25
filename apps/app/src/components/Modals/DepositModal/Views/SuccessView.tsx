@@ -14,7 +14,6 @@ import {
   getNiceNetworkNameByChainId,
   lower
 } from '@shared/utilities'
-import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import { Address, decodeEventLog, TransactionReceipt } from 'viem'
 import { useAccount, useTransactionReceipt } from 'wagmi'
@@ -26,9 +25,6 @@ interface SuccessViewProps {
 
 export const SuccessView = (props: SuccessViewProps) => {
   const { vault, txHash } = props
-
-  const t_common = useTranslations('Common')
-  const t_modals = useTranslations('TxModals')
 
   const { address: userAddress } = useAccount()
 
@@ -56,25 +52,27 @@ export const SuccessView = (props: SuccessViewProps) => {
     <div className='flex flex-col gap-6 items-center'>
       <div className='flex flex-col gap-3 items-center'>
         <div className='flex flex-col items-center text-lg font-medium text-center'>
-          <span className='text-pt-teal'>{t_modals('success')}</span>
-          <span>{!!sharesReceived ? t_modals('gotTokens', { tokens }) : <Spinner />}</span>
+          <span className='text-pt-teal'>Success!</span>
+          <span>{!!sharesReceived ? `You got ${tokens}` : <Spinner />}</span>
         </div>
         <PrizePoolBadge
           chainId={vault.chainId}
           hideBorder={true}
-          intl={t_common}
+          intl={undefined}
           className='!py-1'
         />
         <SuccessPooly className='w-40 h-auto mt-3' />
       </div>
-      <span className='text-sm text-center md:text-base'>{t_modals('nowEligible')}</span>
+      <span className='text-sm text-center md:text-base'>
+        You are now eligible for all future draws in this pool.
+      </span>
       {!!txHash && (
         <ExternalLink
           href={getBlockExplorerUrl(vault.chainId, txHash, 'tx')}
           size='sm'
           className='text-pt-teal'
         >
-          {t_common('viewOn', { name })}
+          View on {name}
         </ExternalLink>
       )}
       <ShareButtons vault={vault} />
@@ -88,8 +86,6 @@ interface ShareButtonsProps {
 
 const ShareButtons = (props: ShareButtonsProps) => {
   const { vault } = props
-
-  const t = useTranslations('TxModals')
 
   const { data: vaultToken } = useVaultTokenData(vault)
 
@@ -110,7 +106,7 @@ const ShareButtons = (props: ShareButtonsProps) => {
 
   return (
     <div className='flex flex-col items-center'>
-      <h1 className='py-1 text-sm sm:text-md font-medium'>{t('shareOn')}:</h1>
+      <h1 className='py-1 text-sm sm:text-md font-medium'>Share on:</h1>
       <div className='flex flex-col sm:flex-row gap-2'>
         <SocialShareButton platform='twitter' text={text.twitter} hashTags={hashTags} />
         <SocialShareButton platform='warpcast' text={text.warpcast} />

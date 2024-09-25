@@ -15,7 +15,6 @@ import {
   SECONDS_PER_WEEK
 } from '@shared/utilities'
 import { useAtomValue } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import { parseUnits } from 'viem'
 import {
@@ -31,9 +30,6 @@ interface OddsProps {
 
 export const Odds = (props: OddsProps) => {
   const { vault, prizePool } = props
-
-  const t_common = useTranslations('Common')
-  const t_txModals = useTranslations('TxModals')
 
   const formTokenAddress = useAtomValue(depositFormTokenAddressAtom)
   const formTokenAmount = useAtomValue(depositFormTokenAmountAtom)
@@ -73,11 +69,9 @@ export const Odds = (props: OddsProps) => {
   const chance = useMemo(() => {
     if (!!outputPrizeOdds && !!drawPeriod) {
       const input = !!inputPrizeOdds
-        ? t_txModals('oneInXChance', { number: calculateOneInXChance(inputPrizeOdds, drawPeriod) })
+        ? `1 in ${calculateOneInXChance(inputPrizeOdds, drawPeriod)}`
         : undefined
-      const output = t_txModals('oneInXChance', {
-        number: calculateOneInXChance(outputPrizeOdds, drawPeriod)
-      })
+      const output = `1 in ${calculateOneInXChance(outputPrizeOdds, drawPeriod)}`
       return { input, output }
     }
   }, [inputPrizeOdds, outputPrizeOdds, drawPeriod])
@@ -86,21 +80,21 @@ export const Odds = (props: OddsProps) => {
     <div className='flex flex-col items-center font-semibold'>
       <span className='mb-2 text-xs text-pt-purple-100 md:text-sm'>
         {!!drawPeriod && drawPeriod > SECONDS_PER_WEEK
-          ? t_txModals('monthlyChances')
-          : t_txModals('weeklyChances')}
+          ? 'Monthly Chance of Winning'
+          : 'Weekly Chance of Winning'}
       </span>
       {!!chance ? (
         <>
           {!!chance.input ? (
             <>
               <div className='flex gap-2 items-center'>
-                <span className='text-xs text-pt-purple-100'>{t_common('before')}</span>
+                <span className='text-xs text-pt-purple-100'>Before</span>
                 <span className='text-pt-purple-50 md:text-xl'>
                   {formTokenAmount !== '0' ? chance.input : '-'}
                 </span>
               </div>
               <div className='flex gap-2 items-center'>
-                <span className='text-xs text-pt-purple-100'>{t_common('after')}</span>
+                <span className='text-xs text-pt-purple-100'>After</span>
                 <span className='text-pt-purple-50 md:text-xl'>
                   {formTokenAmount !== '0' ? chance.output : '-'}
                 </span>

@@ -3,7 +3,6 @@ import { useCustomRPCs } from '@shared/generic-react-hooks'
 import { Button, Spinner } from '@shared/ui'
 import { getNiceNetworkNameByChainId, NETWORK } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { createPublicClient, http } from 'viem'
@@ -17,15 +16,16 @@ interface RPCsViewProps {
 export const RPCsView = (props: RPCsViewProps) => {
   const { chainIds, onClickPageReload } = props
 
-  const t = useTranslations('Settings')
-
   const [isChangesMade, setIsChangesMade] = useState<boolean>(false)
 
   return (
     <div className='flex flex-col gap-4 md:gap-8'>
       <div className='flex flex-col items-center gap-2 text-center'>
-        <span className='text-lg font-semibold md:text-xl'>{t('setCustomRPCs')}</span>
-        <span className='text-sm text-pt-purple-50 md:text-base'>{t('customRpcDescription')}</span>
+        <span className='text-lg font-semibold md:text-xl'>Set Custom RPCs</span>
+        <span className='text-sm text-pt-purple-50 md:text-base'>
+          Route the app's onchain queries through RPCs of your choosing. These are stored locally on
+          your browser.
+        </span>
       </div>
 
       <div className='flex flex-col gap-2'>
@@ -44,7 +44,7 @@ export const RPCsView = (props: RPCsViewProps) => {
           className='inline-flex gap-2 items-center justify-center text-center text-sm text-pt-purple-200 cursor-pointer'
         >
           <ArrowPathRoundedSquareIcon className='h-6 w-6' />
-          <span>{t('refreshToUpdateRPCs')}</span>
+          <span>Refresh the page to see changes</span>
         </span>
       )}
     </div>
@@ -59,9 +59,6 @@ interface CustomRPCInputProps {
 
 const CustomRPCInput = (props: CustomRPCInputProps) => {
   const { chainId, onUpdate, className } = props
-
-  const t_settings = useTranslations('Settings')
-  const t_errors = useTranslations('Error.formErrors')
 
   const { customRPCs, set, remove } = useCustomRPCs()
 
@@ -94,7 +91,7 @@ const CustomRPCInput = (props: CustomRPCInputProps) => {
           onUpdate?.(cleanRpcUrl)
         } else {
           formMethods.setError('rpc', {
-            message: t_errors('invalidRpcNetwork', { network: networkName })
+            message: `This RPC doesn't seem to be for the ${networkName} network`
           })
         }
       } else {
@@ -103,7 +100,7 @@ const CustomRPCInput = (props: CustomRPCInputProps) => {
         onUpdate?.('')
       }
     } catch (err) {
-      formMethods.setError('rpc', { message: t_errors('invalidRpcUrl') })
+      formMethods.setError('rpc', { message: 'Not a valid RPC URL' })
     } finally {
       setCheckedRpcUrl(cleanRpcUrl ?? '')
       setIsCheckingRPC(false)
@@ -120,11 +117,11 @@ const CustomRPCInput = (props: CustomRPCInputProps) => {
           formKey='rpc'
           needsOverride={true}
           keepValueOnOverride={true}
-          label={t_settings('customNetworkRpc', { network: networkName })}
-          overrideLabel={t_settings('override')}
+          label={`Custom ${networkName} RPC`}
+          overrideLabel={'override'}
           validate={{
             isValidURL: (v) =>
-              !v || v.startsWith('http://') || v.startsWith('https://') || t_errors('invalidRpcUrl')
+              !v || v.startsWith('http://') || v.startsWith('https://') || 'Not a valid RPC URL'
           }}
           placeholder='https://...'
           className='w-full'
@@ -175,8 +172,6 @@ interface SetCustomRpcButtonProps {
 const SetCustomRpcButton = (props: SetCustomRpcButtonProps) => {
   const { formRpcUrl, checkedRpcUrl, isCheckingRPC, isFormValid, className } = props
 
-  const t = useTranslations('Settings')
-
   const isFormRpcUrlChecked = !isCheckingRPC && checkedRpcUrl === formRpcUrl?.trim()
   const isDefaultRpcUrl = !formRpcUrl && !checkedRpcUrl
 
@@ -199,11 +194,9 @@ const SetCustomRpcButton = (props: SetCustomRpcButtonProps) => {
     >
       <div className='py-[1px] text-pt-purple-50'>
         <span className={classNames({ 'opacity-0': isButtonTextHidden || !isDefaultRpcUrl })}>
-          {t('default')}
+          Default
         </span>
-        {!isButtonTextHidden && !isDefaultRpcUrl && (
-          <span className='absolute inset-x-0'>{t('set')}</span>
-        )}
+        {!isButtonTextHidden && !isDefaultRpcUrl && <span className='absolute inset-x-0'>Set</span>}
       </div>
       <CheckIcon
         className={classNames(iconClassName, { 'opacity-100': isSubmitted && isFormValid })}

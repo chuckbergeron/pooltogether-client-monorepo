@@ -8,7 +8,6 @@ import { VaultList } from '@shared/types'
 import { BasicIcon, Button, ExternalLink, Spinner, Toggle } from '@shared/ui'
 import { getVaultList, isTestnet, LINKS, NETWORK } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { usePublicClient } from 'wagmi'
@@ -22,8 +21,6 @@ export const VaultListView = (props: VaultListViewProps) => {
   const { onSuccess } = props
 
   const localVaultListIds = Object.keys(DEFAULT_VAULT_LISTS)
-
-  const t = useTranslations('Settings')
 
   const { cachedVaultLists, remove } = useCachedVaultLists()
 
@@ -51,10 +48,13 @@ export const VaultListView = (props: VaultListViewProps) => {
   return (
     <div className='flex flex-col gap-4 md:gap-8'>
       <div className='flex flex-col items-center gap-2 text-center'>
-        <span className='text-lg font-semibold md:text-xl'>{t('manageVaultLists')}</span>
-        <span className='text-sm text-pt-purple-50 md:text-base'>{t('vaultListsDescription')}</span>
+        <span className='text-lg font-semibold md:text-xl'>Manage Vault Lists</span>
+        <span className='text-sm text-pt-purple-50 md:text-base'>
+          Vault lists determine what prize vaults are displayed throughout the app. Use caution when
+          interacting with imported lists.
+        </span>
         <ExternalLink href={LINKS.listDocs} className='text-pt-purple-200'>
-          {t('learnMoreVaultLists')}
+          Learn more about vault lists
         </ExternalLink>
       </div>
 
@@ -99,9 +99,6 @@ interface ImportVaultListFormProps {
 const ImportVaultListForm = (props: ImportVaultListFormProps) => {
   const { onSuccess } = props
 
-  const t_settings = useTranslations('Settings')
-  const t_errors = useTranslations('Error.formErrors')
-
   const mainnetPublicClient = usePublicClient({ chainId: NETWORK.mainnet })
 
   const { cache } = useCachedVaultLists()
@@ -138,10 +135,10 @@ const ImportVaultListForm = (props: ImportVaultListFormProps) => {
         onSuccess?.(cleanSrc)
         reset()
       } else {
-        setError('src', { message: t_errors('invalidVaultList') })
+        setError('src', { message: 'No valid vault list found' })
       }
     } catch (err) {
-      setError('src', { message: t_errors('invalidVaultList') })
+      setError('src', { message: 'No valid vault list found' })
     } finally {
       setIsImporting(false)
     }
@@ -159,7 +156,7 @@ const ImportVaultListForm = (props: ImportVaultListFormProps) => {
                 v.startsWith('ipfs://') ||
                 v.startsWith('ipns://') ||
                 v.endsWith('.eth') ||
-                t_errors('invalidSrc')
+                'Not a valid URL or ENS domain'
             }
           })}
           id='vaultListInput'
@@ -168,7 +165,7 @@ const ImportVaultListForm = (props: ImportVaultListFormProps) => {
             'w-full text-sm bg-gray-50 text-pt-purple-900 px-4 py-3 rounded-lg focus:outline-none',
             { 'brightness-75': isImporting }
           )}
-          placeholder={t_settings('urlInput')}
+          placeholder={'https:// or ipfs:// or ENS name'}
           disabled={isImporting}
         />
         <Button
@@ -182,7 +179,7 @@ const ImportVaultListForm = (props: ImportVaultListFormProps) => {
               'opacity-0': isImporting
             })}
           >
-            {t_settings('addVaultList')}
+            Add Vault List
           </span>
           {isImporting && <Spinner className='absolute left-0 right-0 mx-auto' />}
         </Button>
@@ -201,8 +198,6 @@ interface VaultListItemProps {
 
 const VaultListItem = (props: VaultListItemProps) => {
   const { vaultList, id, isChecked, isImported } = props
-
-  const t = useTranslations('Settings')
 
   const { remove } = useCachedVaultLists()
 
@@ -249,13 +244,11 @@ const VaultListItem = (props: VaultListItemProps) => {
             <span className='text-xs'>{version}</span>
           </a>
           <div className='flex items-center gap-2 text-pt-purple-100'>
-            <span className='text-xs'>{t('numVaults', { number: numVaults.mainnet })}</span>
+            <span className='text-xs'>{numVaults.mainnet} vault(s)</span>
             {numVaults.testnet > 0 && (
-              <span className='text-xs'>
-                (+{t('numTestnetVaults', { number: numVaults.testnet })})
-              </span>
+              <span className='text-xs'>(+{numVaults.testnet} testnet vault(s))</span>
             )}
-            {isImported && <ImportedBadge intl={{ text: t('imported') }} />}
+            {isImported && <ImportedBadge intl={{ text: 'Imported' }} />}
           </div>
         </div>
       </div>
@@ -276,14 +269,12 @@ interface ClearImportedVaultListsButtonProps {
 const ClearImportedVaultListsButton = (props: ClearImportedVaultListsButtonProps) => {
   const { onClick } = props
 
-  const t = useTranslations('Settings')
-
   return (
     <span
       onClick={onClick}
       className='w-full text-center text-sm text-pt-purple-200 cursor-pointer'
     >
-      {t('clearImportedVaultLists')}
+      Clear all imported vault lists
     </span>
   )
 }

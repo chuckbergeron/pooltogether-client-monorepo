@@ -2,7 +2,6 @@ import { Vault } from '@generationsoftware/hyperstructure-client-js'
 import { DelegateButton, DepositButton, WithdrawButton } from '@shared/react-components'
 import classNames from 'classnames'
 import * as fathom from 'fathom-client'
-import { useTranslations } from 'next-intl'
 import { useAccount } from 'wagmi'
 import { FATHOM_EVENTS } from '@constants/config'
 
@@ -14,9 +13,6 @@ interface VaultPageButtonsProps {
 export const VaultPageButtons = (props: VaultPageButtonsProps) => {
   const { vault, className } = props
 
-  const t_common = useTranslations('Common')
-  const t_tooltips = useTranslations('Tooltips')
-
   const { address: userAddress } = useAccount()
 
   return (
@@ -24,14 +20,14 @@ export const VaultPageButtons = (props: VaultPageButtonsProps) => {
       <DepositButton
         vault={vault}
         extraOnClick={() => fathom.trackEvent(FATHOM_EVENTS.openedDepositModal)}
-        intl={{ base: t_common, tooltips: t_tooltips }}
+        intl={{ base: undefined, tooltips: undefined }}
       />
       <WithdrawButton
         vault={vault}
         extraOnClick={() => fathom.trackEvent(FATHOM_EVENTS.openedWithdrawModal)}
         color='transparent'
       >
-        {t_common('withdraw')}
+        Withdraw
       </WithdrawButton>
       {!!userAddress && (
         <DelegateButton
@@ -39,7 +35,7 @@ export const VaultPageButtons = (props: VaultPageButtonsProps) => {
           extraOnClick={() => fathom.trackEvent(FATHOM_EVENTS.openedDelegateModal)}
           color='transparent'
         >
-          {t_common('delegate')}
+          Delegate
         </DelegateButton>
       )}
     </div>

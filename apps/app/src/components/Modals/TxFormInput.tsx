@@ -3,7 +3,6 @@ import { TokenWithAmount, TokenWithLogo, TokenWithPrice } from '@shared/types'
 import { Dropdown, DropdownItem, Spinner } from '@shared/ui'
 import { DOLPHIN_ADDRESS, formatNumberForDisplay, lower } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useFormContext } from 'react-hook-form'
 import { getRoundedDownFormattedTokenAmount } from 'src/utils'
 import { formatUnits } from 'viem'
@@ -50,8 +49,6 @@ export const TxFormInput = (props: TxFormInputProps) => {
     inputClassName,
     disabledCoverClassName
   } = props
-
-  const t = useTranslations('TxModals')
 
   const {
     watch,
@@ -175,15 +172,13 @@ export const TxFormInput = (props: TxFormInputProps) => {
             )}
           </div>
           <div className='flex gap-1 ml-auto'>
-            <span>
-              {t('balance')} {getRoundedDownFormattedTokenAmount(token.amount, token.decimals)}
-            </span>
+            <span>Balance: {getRoundedDownFormattedTokenAmount(token.amount, token.decimals)}</span>
             {showMaxButton && (
               <span
                 onClick={setFormAmountToMax}
                 className='text-pt-purple-200 cursor-pointer select-none'
               >
-                {t('max')}
+                Max
               </span>
             )}
           </div>
@@ -206,15 +201,13 @@ interface InputProps {
 const Input = (props: InputProps) => {
   const { formKey, decimals, validate, disabled, onChange, className } = props
 
-  const t = useTranslations('Error.formErrors')
-
   const { register } = useFormContext<TxFormValues>()
 
   const basicValidation: { [rule: string]: (v: any) => true | string } = {
-    isValidNumber: (v) => !Number.isNaN(Number(v)) || t('invalidNumber'),
-    isGreaterThanOrEqualToZero: (v) => parseFloat(v) >= 0 || t('negativeNumber'),
+    isValidNumber: (v) => !Number.isNaN(Number(v)) || 'Enter a valid number',
+    isGreaterThanOrEqualToZero: (v) => parseFloat(v) >= 0 || 'Enter a positive number',
     isNotTooPrecise: (v) =>
-      v.split('.').length < 2 || v.split('.')[1].length <= decimals || t('tooManyDecimals')
+      v.split('.').length < 2 || v.split('.')[1].length <= decimals || 'Too many decimals'
   }
 
   return (

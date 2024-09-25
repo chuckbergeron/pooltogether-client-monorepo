@@ -1,6 +1,5 @@
 import { PrizePool } from '@generationsoftware/hyperstructure-client-js'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { PrizePoolPrizesCard } from '@components/Prizes/PrizePoolPrizesCard'
 import { VaultPageCard } from './VaultPageCard'
 
@@ -12,11 +11,9 @@ interface VaultPagePrizesSectionProps {
 export const VaultPagePrizesSection = (props: VaultPagePrizesSectionProps) => {
   const { prizePool, className } = props
 
-  const t_prizes = useTranslations('Prizes')
-
   return (
     <VaultPageCard
-      title={t_prizes('currentPrizes')}
+      title={'Current Prizes'}
       className='!p-0'
       wrapperClassName={classNames('bg-transparent shadow-none', className)}
     >

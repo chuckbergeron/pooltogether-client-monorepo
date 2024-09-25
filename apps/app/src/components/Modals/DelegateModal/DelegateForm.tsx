@@ -5,7 +5,6 @@ import { DelegationDescriptionTooltip } from '@shared/react-components'
 import { Spinner } from '@shared/ui'
 import classNames from 'classnames'
 import { atom, useSetAtom } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { ReactNode, useEffect } from 'react'
 import { useState } from 'react'
 import { FormProvider, useForm, useFormContext, useWatch } from 'react-hook-form'
@@ -26,11 +25,6 @@ export interface DelegateFormProps {
 
 export const DelegateForm = (props: DelegateFormProps) => {
   const { vault, modalView } = props
-
-  const t_txModals = useTranslations('TxModals')
-  const t_tooltips = useTranslations('Tooltips')
-  const t_common = useTranslations('Common')
-  const t_errors = useTranslations('Error.formErrors')
 
   const { address: userAddress } = useAccount()
 
@@ -69,15 +63,16 @@ export const DelegateForm = (props: DelegateFormProps) => {
           autoComplete='off'
           disabled={modalView === 'waiting' || modalView === 'confirming'}
           validate={{
-            isValidAddress: (v: string) => isAddress(v?.trim()) || t_errors('invalidAddress'),
-            isSameAsDelegate: (v: string) => v?.trim() !== delegate || t_errors('sameAsDelegate')
+            isValidAddress: (v: string) => isAddress(v?.trim()) || 'Enter a valid EVM address',
+            isSameAsDelegate: (v: string) =>
+              v?.trim() !== delegate || 'Entered address is same as current delegate'
           }}
           placeholder={delegate}
           label={
             <div className='flex items-center text-xs sm:text-sm'>
-              <span className='mr-1'>{t_txModals('delegatedAddress')}</span>
+              <span className='mr-1'>Delegated Address</span>
               <DelegationDescriptionTooltip
-                intl={{ tooltip: t_tooltips, common: t_common }}
+                intl={{ tooltip: undefined, common: undefined }}
                 className='whitespace-normal'
               />
             </div>
@@ -88,10 +83,8 @@ export const DelegateForm = (props: DelegateFormProps) => {
           overrideLabel={
             <div className='flex items-center text-xs sm:text-sm'>
               <PencilIcon className='w-3 h-3 sm:w-4 sm:h-4 mr-1' />
-              <span className='hidden sm:inline-block capitalize'>
-                {t_txModals('changeDelegateAddress')}
-              </span>
-              <span className='sm:hidden'>{t_txModals('changeDelegateAddressShort')}</span>
+              <span className='hidden sm:inline-block capitalize'>Change delegate address</span>
+              <span className='sm:hidden'>Edit delegate</span>
             </div>
           }
           keepValueOnOverride={true}
