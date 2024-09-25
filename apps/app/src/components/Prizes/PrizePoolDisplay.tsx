@@ -3,7 +3,6 @@ import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/react/24/outli
 import { ExternalLink } from '@shared/ui'
 import { LINKS, NETWORK } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
@@ -16,28 +15,22 @@ interface PrizePoolDisplayProps {
 export const PrizePoolDisplay = (props: PrizePoolDisplayProps) => {
   const { className } = props
 
-  const t = useTranslations('Prizes')
-
   return (
     <div className={classNames('flex flex-col items-center text-center', className)}>
       <span className='text-2xl font-grotesk text-pt-teal-dark font-medium md:text-4xl'>
-        {t('currentPrizes')}
+        Current Prizes
       </span>
       <PrizePoolCarousel className='mt-8 mb-4' />
       <span>
-        *
-        {t.rich('learnMore', {
-          link: (chunks) => (
-            <ExternalLink
-              href={LINKS.protocolBasicsDocs}
-              size='xs'
-              className='text-pt-purple-200 md:text-base'
-              iconClassName='md:h-5 md:w-5'
-            >
-              {chunks}
-            </ExternalLink>
-          )
-        })}
+        * Prizes and frequencies are estimations. 
+        <ExternalLink
+          href={LINKS.protocolBasicsDocs}
+          size='xs'
+          className='text-pt-purple-200 md:text-base'
+          iconClassName='md:h-5 md:w-5'
+        >
+          Learn how PoolTogether works
+        </ExternalLink>
       </span>
     </div>
   )

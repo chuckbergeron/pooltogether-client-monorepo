@@ -2,13 +2,10 @@ import { useAllPrizeValue } from '@generationsoftware/hyperstructure-react-hooks
 import { CurrencyValue } from '@shared/react-components'
 import { Spinner } from '@shared/ui'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 
 export const PrizesHeader = () => {
-  const t = useTranslations('Prizes')
-
   const prizePools = useSupportedPrizePools()
   const prizePoolsArray = Object.values(prizePools)
 
@@ -44,7 +41,7 @@ export const PrizesHeader = () => {
             'md:w-full md:text-4xl lg:text-5xl'
           )}
         >
-          {t.rich('winUpTo', { amount: () => <TotalPrizeValue /> })}
+          Keep your deposit. Win up to <TotalPrizeValue />
         </span>
         {/* TODO: add animated text with recent big winners (need luck script/calc) */}
       </div>

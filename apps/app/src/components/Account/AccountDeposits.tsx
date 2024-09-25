@@ -71,19 +71,16 @@ export const AccountDeposits = (props: AccountDepositsProps) => {
 const NoWalletCard = (props: { className?: string }) => {
   const { className } = props
 
-  const t_common = useTranslations('Common')
-  const t_account = useTranslations('Account')
-
   const { openConnectModal } = useConnectModal()
 
   return (
     <div className={classNames('flex flex-col max-w-md gap-6 items-center', className)}>
       <span className='text-center text-3xl font-grotesk font-medium md:text-5xl'>
-        {t_account('connectWallet')}
+        Connect wallet
       </span>
       <Button onClick={openConnectModal}>
         <div className='inline-flex gap-3 font-medium'>
-          <span>{t_common('connectWallet')}</span>
+          <span>Connect wallet</span>
           <ArrowRightIcon className='h-5 w-5' />
         </div>
       </Button>
@@ -111,16 +108,13 @@ const NoDepositsCard = (props: { className?: string }) => {
 const NoVaultListsCard = (props: { className?: string }) => {
   const { className } = props
 
-  const t_account = useTranslations('Account')
-  const t_settings = useTranslations('Settings')
-
   const { setIsModalOpen } = useIsModalOpen(MODAL_KEYS.settings)
   const { setView } = useSettingsModalView()
 
   return (
     <div className={classNames('w-full rounded-lg lg:p-4 lg:bg-pt-bg-purple', className)}>
       <div className='flex flex-col w-full gap-2 items-center justify-center p-3 text-sm bg-pt-transparent rounded-lg lg:flex-row lg:gap-3 lg:text-lg lg:font-medium'>
-        <span className='text-pt-purple-100'>{t_account('noVaultLists')}</span>
+        <span className='text-pt-purple-100'>You don't have any vault lists selected.</span>
         <button
           onClick={() => {
             setView('vaultLists')
@@ -128,7 +122,7 @@ const NoVaultListsCard = (props: { className?: string }) => {
           }}
           className='text-pt-teal cursor-pointer hover:text-pt-teal-dark'
         >
-          {t_settings('manageVaultLists')}
+          Manage Vault Lists
         </button>
       </div>
     </div>

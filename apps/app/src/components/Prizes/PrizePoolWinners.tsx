@@ -12,7 +12,6 @@ import { getSecondsSinceEpoch, getSimpleDate, SECONDS_PER_DAY } from '@shared/ut
 import classNames from 'classnames'
 import * as fathom from 'fathom-client'
 import { atom, useSetAtom } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import { Address } from 'viem'
 import { FATHOM_EVENTS } from '@constants/config'
@@ -26,8 +25,6 @@ interface PrizePoolWinnersProps {
 
 export const PrizePoolWinners = (props: PrizePoolWinnersProps) => {
   const { className } = props
-
-  const t = useTranslations('Prizes')
 
   const { selectedPrizePool } = useSelectedPrizePool()
 
@@ -68,7 +65,7 @@ export const PrizePoolWinners = (props: PrizePoolWinnersProps) => {
         )}
       >
         <span className='text-2xl font-grotesk text-pt-teal-dark font-medium md:text-4xl'>
-          {t('recentWinners')}
+          Recent Winners
         </span>
         <ul className='w-full flex flex-col items-center gap-2 text-center md:gap-4'>
           {drawsToDisplay.map((draw) => {
@@ -89,8 +86,6 @@ interface DrawRowProps {
 
 const DrawRow = (props: DrawRowProps) => {
   const { prizePool, draw } = props
-
-  const t = useTranslations('Prizes.drawWinners')
 
   const { data: tokenData } = usePrizeTokenData(prizePool)
 
@@ -130,17 +125,19 @@ const DrawRow = (props: DrawRowProps) => {
     >
       {!!tokenData && (
         <div className='inline-flex gap-2 items-center'>
-          <span>{t('beforeValue', { numPeople: uniqueWallets.size })}</span>
+          <span>
+            {/* {t('beforeValue', { numPeople: uniqueWallets.size })} */}
+            {/* {numPeople, plural, one {# person} other {# people}} won */}
+            {uniqueWallets.size} won
+          </span>
           <span className='text-pt-purple-200'>
             <TokenValue token={{ ...tokenData, amount: totalPrizeAmount }} hideZeroes={true} />
           </span>
           {timeTextType === 'today'
-            ? t('afterValue.today')
+            ? 'Today'
             : timeTextType === 'yesterday'
-            ? t('afterValue.yesterday')
-            : t('afterValue.onXDate', {
-                date: getSimpleDate(firstPrizeTimestamp)
-              })}
+            ? 'Yesterday'
+            : `On ${getSimpleDate(firstPrizeTimestamp)}`}
         </div>
       )}
     </div>

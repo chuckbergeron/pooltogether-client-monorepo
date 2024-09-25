@@ -8,7 +8,6 @@ import { NetworkBadge, TokenAmount, TokenValue } from '@shared/react-components'
 import { Card, Spinner } from '@shared/ui'
 import { formatDailyCountToFrequency, getPrizeTextFromFrequency } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 
 export interface PrizePoolPrizesCardProps {
   prizePool: PrizePool
@@ -31,8 +30,6 @@ export const PrizePoolPrizesCard = (props: PrizePoolPrizesCardProps) => {
     frequencyClassName
   } = props
 
-  const t_prizes = useTranslations('Prizes')
-  const t_freq = useTranslations('Frequency')
 
   const { data: allPrizeInfo, isFetched: isFetchedAllPrizeInfo } = useAllPrizeInfo([prizePool])
   const { data: tokenData, isFetched: isFetchedTokenData } = usePrizeTokenData(prizePool)
@@ -57,8 +54,8 @@ export const PrizePoolPrizesCard = (props: PrizePoolPrizesCardProps) => {
           headersClassName
         )}
       >
-        <span className='flex-grow pl-8 text-left md:pl-16'>{t_prizes('prize')}</span>
-        <span className='flex-grow pr-8 text-right md:pr-16'>{t_prizes('frequency')}</span>
+        <span className='flex-grow pl-8 text-left md:pl-16'>Prize</span>
+        <span className='flex-grow pr-8 text-right md:pr-16'>Frequency</span>
       </div>
       {isFetchedAllPrizeInfo && isFetchedTokenData && !!tokenData && !!drawPeriod ? (
         <div className='w-full flex flex-col gap-3'>
@@ -99,7 +96,8 @@ export const PrizePoolPrizesCard = (props: PrizePoolPrizesCardProps) => {
                       frequencyClassName
                     )}
                   >
-                    {getPrizeTextFromFrequency(frequency, 'everyXdays', t_freq)}
+                    {/* {getPrizeTextFromFrequency(frequency, 'everyXdays', t_freq)} */}
+                    {getPrizeTextFromFrequency(frequency, 'everyXdays', undefined)}
                   </span>
                 </div>
               )
