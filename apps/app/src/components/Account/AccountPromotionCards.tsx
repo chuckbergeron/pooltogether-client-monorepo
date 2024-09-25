@@ -1,5 +1,4 @@
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'
 import { Address } from 'viem'
 import { useAccount } from 'wagmi'
@@ -14,8 +13,6 @@ interface AccountPromotionCardsProps {
 
 export const AccountPromotionCards = (props: AccountPromotionCardsProps) => {
   const { address, className } = props
-
-  const t = useTranslations('Common')
 
   const baseNumCards = 10
   const [numCards, setNumCards] = useState<number>(baseNumCards)
@@ -73,7 +70,7 @@ export const AccountPromotionCards = (props: AccountPromotionCardsProps) => {
           className='w-full flex justify-center text-pt-purple-300 cursor-pointer'
           onClick={() => setNumCards(numCards + baseNumCards)}
         >
-          {t('showMore')}
+          Show more
         </span>
       )}
     </div>

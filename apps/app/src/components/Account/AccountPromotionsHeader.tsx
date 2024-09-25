@@ -4,7 +4,6 @@ import { CurrencyValue, TransactionButton } from '@shared/react-components'
 import { Spinner } from '@shared/ui'
 import { getNiceNetworkNameByChainId } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import { Address } from 'viem'
 import { useAccount } from 'wagmi'
@@ -21,8 +20,6 @@ interface AccountPromotionsHeaderProps {
 export const AccountPromotionsHeader = (props: AccountPromotionsHeaderProps) => {
   const { address, className } = props
 
-  const t = useTranslations('Common')
-
   const { address: _userAddress } = useAccount()
   const userAddress = address ?? _userAddress
 
@@ -38,7 +35,7 @@ export const AccountPromotionsHeader = (props: AccountPromotionsHeaderProps) => 
 
   return (
     <div className={classNames('flex flex-col items-center gap-1 md:gap-2', className)}>
-      <span className='text-sm text-pt-purple-100 md:text-base'>{t('bonusRewards')}</span>
+      <span className='text-sm text-pt-purple-100 md:text-base'>Bonus rewards</span>
       <span className='text-[1.75rem] font-grotesk font-medium md:text-4xl'>
         {!!userAddress && totalRewards !== undefined ? (
           <CurrencyValue baseValue={totalRewards} countUp={true} fallback={<Spinner />} />
@@ -69,10 +66,6 @@ interface ClaimAllRewardsButtonProps {
 
 const ClaimAllRewardsButton = (props: ClaimAllRewardsButtonProps) => {
   const { chainId, userAddress, className } = props
-
-  const t_common = useTranslations('Common')
-  const t_account = useTranslations('Account')
-  const t_txs = useTranslations('TxModals')
 
   const { openConnectModal } = useConnectModal()
   const { openChainModal } = useChainModal()
@@ -123,14 +116,14 @@ const ClaimAllRewardsButton = (props: ClaimAllRewardsButtonProps) => {
         isTxSuccess={isSuccess}
         write={sendClaimRewardsTransaction}
         txHash={txHash}
-        txDescription={t_account('claimAllRewardsTx', { network })}
+        txDescription={`{network} Multi-Rewards Claim`}
         openConnectModal={openConnectModal}
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
-        intl={{ base: t_txs, common: t_common }}
+        intl={{ base: undefined, common: undefined }}
         className={classNames('min-w-[6rem]', className)}
       >
-        {t_account('claimAllOnNetwork', { network })}
+        Claim all on {network}
       </TransactionButton>
     )
   }

@@ -9,7 +9,6 @@ import { ImportedVaultTooltip, VaultBadge, WinChanceTooltip } from '@shared/reac
 import { Table, TableProps } from '@shared/ui'
 import { getVaultId } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { Address } from 'viem'
@@ -25,10 +24,6 @@ interface AccountDepositsTableProps extends Omit<TableProps, 'data' | 'keyPrefix
 
 export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
   const { address, className, innerClassName, headerClassName, rowClassName, ...rest } = props
-
-  const t_vaults = useTranslations('Vaults')
-  const t_vault = useTranslations('Vault')
-  const t_tooltips = useTranslations('Tooltips')
 
   const { address: _userAddress } = useAccount()
   const userAddress = address ?? _userAddress
@@ -78,20 +73,23 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
 
   const tableHeaders = useMemo(() => {
     const headers: TableProps['data']['headers'] = {
-      token: { content: t_vaults('headers.prizeVault') },
+      token: { content: 'Prize Vault' },
       odds: {
         content: isExternalUser ? (
-          t_vault('headers.winChance')
+          'Win Chance'
         ) : (
           <span className='flex gap-1 items-center'>
-            {t_vault('headers.yourWinChance')}
-            <WinChanceTooltip intl={{ text: t_tooltips('winChance') }} className='text-xs' />
+            Your Win Chance
+            <WinChanceTooltip
+              intl={{ text: 'Your chance to win a prize in any given draw' }}
+              className='text-xs'
+            />
           </span>
         ),
         position: 'center'
       },
       balance: {
-        content: isExternalUser ? t_vault('headers.balance') : t_vaults('headers.yourBalance'),
+        content: isExternalUser ? 'Balance' : 'Your Balance',
         position: 'center'
       }
     }
@@ -118,7 +116,7 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
                     {importedSrcs.length > 0 && (
                       <ImportedVaultTooltip
                         vaultLists={importedSrcs}
-                        intl={t_tooltips('importedVault')}
+                        intl={'This vault is from the following imported list(s):'}
                       />
                     )}
                   </>
@@ -160,7 +158,5 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
 }
 
 const ManageHeader = () => {
-  const t = useTranslations('Common')
-
-  return <span className='w-24 text-center'>{t('manage')}</span>
+  return <span className='w-24 text-center'>Manage</span>
 }

@@ -6,7 +6,6 @@ import { Spinner } from '@shared/ui'
 import { formatNumberForDisplay, SECONDS_PER_MONTH } from '@shared/utilities'
 import { calculateUnionProbability, SECONDS_PER_WEEK } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import { Address } from 'viem'
 import { useAccount } from 'wagmi'
@@ -19,8 +18,6 @@ interface AccountOddsProps {
 
 export const AccountOdds = (props: AccountOddsProps) => {
   const { address, className } = props
-
-  const t = useTranslations('Account')
 
   const { address: _userAddress } = useAccount()
   const userAddress = address ?? _userAddress
@@ -62,7 +59,7 @@ export const AccountOdds = (props: AccountOddsProps) => {
     if (events.length > 0) {
       const value = 1 / calculateUnionProbability(events)
       const formattedValue = formatNumberForDisplay(value, { maximumSignificantDigits: 3 })
-      return t('oneInXChance', { number: formattedValue })
+      return `1 in ${formattedValue}`
     }
   }, [userPrizeOdds, drawPeriods])
 
@@ -75,7 +72,7 @@ export const AccountOdds = (props: AccountOddsProps) => {
           className
         )}
       >
-        <span className='text-xs lg:text-base'>{t('weeklyPrizeOdds')}</span>
+        <span className='text-xs lg:text-base'>Weekly Prize Odds</span>
         {isRefetching ? <Spinner /> : <span>{weeklyChance}</span>}
       </div>
     )

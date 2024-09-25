@@ -5,7 +5,6 @@ import { Win } from '@shared/types'
 import { ExternalLink } from '@shared/ui'
 import { getSimpleDate } from '@shared/utilities'
 import { getBlockExplorerUrl } from '@shared/utilities'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { AccountWinAmount } from './AccountWinAmount'
 
@@ -16,8 +15,6 @@ interface AccountWinCardProps {
 
 export const AccountWinCard = (props: AccountWinCardProps) => {
   const { win, prizePool } = props
-
-  const t = useTranslations('Common')
 
   const vault = useVault({ chainId: win.chainId, address: win.vault })
 
@@ -32,7 +29,7 @@ export const AccountWinCard = (props: AccountWinCardProps) => {
         size='xs'
         className='grow text-pt-purple-200'
       >
-        {t('viewTx')}
+        View TX
       </ExternalLink>
       <AccountWinAmount
         prizePool={prizePool}

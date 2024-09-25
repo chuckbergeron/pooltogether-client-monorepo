@@ -6,7 +6,6 @@ import { Win } from '@shared/types'
 import { ExternalLink } from '@shared/ui'
 import { LINKS } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import { Address } from 'viem'
 import { useAccount } from 'wagmi'
@@ -115,19 +114,19 @@ interface NoWinsCardProps {
 const NoWinsCard = (props: NoWinsCardProps) => {
   const { className } = props
 
-  const t = useTranslations('Account')
-
   return (
     <div className={classNames('w-full rounded-lg lg:p-4 lg:bg-pt-bg-purple', className)}>
       <div className='flex flex-col w-full gap-2 items-center justify-center p-3 bg-pt-transparent rounded-lg lg:flex-row lg:gap-3 lg:font-medium'>
-        <span className='text-sm text-pt-purple-100 lg:text-lg'>{t('noPrizesRecently')}</span>
+        <span className='text-sm text-pt-purple-100 lg:text-lg'>
+          You haven't won any prizes recently
+        </span>
         <ExternalLink
           href={LINKS.docs}
           size='sm'
           className='text-pt-teal lg:text-lg'
           iconClassName='lg:h-6 lg:w-6'
         >
-          {t('learnHowItWorks')}
+          Learn how PoolTogether works
         </ExternalLink>
       </div>
     </div>

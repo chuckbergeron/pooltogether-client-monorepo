@@ -3,7 +3,6 @@ import { usePublicClientsByChain } from '@generationsoftware/hyperstructure-reac
 import { VaultBadge } from '@shared/react-components'
 import { Table, TableProps } from '@shared/ui'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import { Address } from 'viem'
@@ -22,9 +21,6 @@ interface AccountPromotionsTableProps extends Omit<TableProps, 'data' | 'keyPref
 export const AccountPromotionsTable = (props: AccountPromotionsTableProps) => {
   const { address, className, innerClassName, headerClassName, rowClassName, ...rest } = props
 
-  const t_common = useTranslations('Common')
-  const t_headers = useTranslations('Account.bonusRewardHeaders')
-
   const baseNumTableRows = 10
   const [numTableRows, setNumTableRows] = useState<number>(baseNumTableRows)
 
@@ -42,17 +38,17 @@ export const AccountPromotionsTable = (props: AccountPromotionsTableProps) => {
 
   const tableHeaders = useMemo(() => {
     const headers: TableProps['data']['headers'] = {
-      token: { content: t_headers('prizeVault') },
+      token: { content: 'Prize Vault' },
       rewardToken: {
-        content: t_headers('rewardToken'),
+        content: 'Reward Token',
         position: 'center'
       },
       claimed: {
-        content: t_headers('rewardsClaimed'),
+        content: 'Rewards Claimed',
         position: 'center'
       },
       claimable: {
-        content: t_headers('rewardsClaimable'),
+        content: 'Rewards Claimable',
         position: 'center'
       }
     }
@@ -181,7 +177,7 @@ export const AccountPromotionsTable = (props: AccountPromotionsTableProps) => {
           className='w-full flex pb-4 justify-center text-pt-purple-300 cursor-pointer'
           onClick={() => setNumTableRows(numTableRows + baseNumTableRows)}
         >
-          {t_common('showMore')}
+          Show more
         </span>
       )}
     </div>
@@ -189,7 +185,5 @@ export const AccountPromotionsTable = (props: AccountPromotionsTableProps) => {
 }
 
 const ClaimsHeader = () => {
-  const t = useTranslations('Account.bonusRewardHeaders')
-
-  return <span className='w-24 text-center'>{t('claims')}</span>
+  return <span className='w-24 text-center'>Claims</span>
 }

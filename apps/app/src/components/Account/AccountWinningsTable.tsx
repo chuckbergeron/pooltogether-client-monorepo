@@ -8,7 +8,6 @@ import { Win } from '@shared/types'
 import { Table, TableProps } from '@shared/ui'
 import { getSimpleDate } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { ReactNode, useMemo, useState } from 'react'
 import { formatUnits } from 'viem'
@@ -29,9 +28,6 @@ export const AccountWinningsTable = (props: AccountWinningsTableProps) => {
   const publicClients = usePublicClientsByChain()
 
   const { data: prizeTokens } = useAllPrizeTokenPrices(prizePools)
-
-  const t_common = useTranslations('Common')
-  const t_account = useTranslations('Account')
 
   const baseNumWins = 10
   const [numWins, setNumWins] = useState<number>(baseNumWins)
@@ -75,17 +71,17 @@ export const AccountWinningsTable = (props: AccountWinningsTableProps) => {
       date: {
         content: (
           <SortableHeader
-            content={t_account('winHeaders.date')}
+            content={'Date'}
             onClick={() => handleHeaderClick('date')}
             direction={getDirection('date')}
           />
         )
       },
-      prizeVault: { content: t_account('winHeaders.prizeVault'), position: 'center' },
+      prizeVault: { content: 'Prize Vault', position: 'center' },
       winnings: {
         content: (
           <SortableHeader
-            content={t_account('winHeaders.winnings')}
+            content={'Winnings'}
             onClick={() => handleHeaderClick('amount')}
             direction={getDirection('amount')}
           />
@@ -93,7 +89,7 @@ export const AccountWinningsTable = (props: AccountWinningsTableProps) => {
         position: 'center'
       },
       info: {
-        content: <span className='w-24 text-center'>{t_account('winHeaders.moreInfo')}</span>,
+        content: <span className='w-24 text-center'>More info</span>,
         position: 'right'
       }
     },
@@ -157,7 +153,7 @@ export const AccountWinningsTable = (props: AccountWinningsTableProps) => {
           className='w-full flex pb-4 justify-center text-pt-purple-300 cursor-pointer'
           onClick={() => setNumWins(numWins + baseNumWins)}
         >
-          {t_common('showMore')}
+          Show more
         </span>
       )}
     </div>

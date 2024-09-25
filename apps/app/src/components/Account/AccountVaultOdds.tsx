@@ -24,8 +24,6 @@ interface AccountVaultOddsProps {
 export const AccountVaultOdds = (props: AccountVaultOddsProps) => {
   const { vault, address, className, spinnerClassName, delegatedClassName } = props
 
-  const t = useTranslations('Account')
-
   const { address: _userAddress } = useAccount()
   const userAddress = address ?? _userAddress
 
@@ -65,19 +63,19 @@ export const AccountVaultOdds = (props: AccountVaultOddsProps) => {
   if (!!delegate && delegate?.toLowerCase() !== userAddress.toLowerCase()) {
     return (
       <span className={classNames(className, delegatedClassName)}>
-        {delegate === '0x0000000000000000000000000000000000000001'
-          ? t('sponsoring')
-          : t.rich('delegatedTo', {
-              account: ensName ?? shorten(delegate),
-              link: (chunks) => (
-                <Link
-                  href={`/account/${ensName ?? delegate}`}
-                  className='text-pt-teal hover:text-pt-teal-dark'
-                >
-                  {chunks}
-                </Link>
-              )
-            })}
+        {delegate === '0x0000000000000000000000000000000000000001' ? (
+          'Sponsoring'
+        ) : (
+          <>
+            Delegated to{' '}
+            <Link
+              href={`/account/${ensName ?? delegate}`}
+              className='text-pt-teal hover:text-pt-teal-dark'
+            >
+              {ensName ?? shorten(delegate)}
+            </Link>
+          </>
+        )}
       </span>
     )
   }
@@ -88,9 +86,7 @@ export const AccountVaultOdds = (props: AccountVaultOddsProps) => {
 
   return (
     <span className={className}>
-      {t('oneInXChance', {
-        number: formatNumberForDisplay(prizeOdds.oneInX, { maximumSignificantDigits: 3 })
-      })}
+      1 in {formatNumberForDisplay(prizeOdds.oneInX, { maximumSignificantDigits: 3 })}
     </span>
   )
 }

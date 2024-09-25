@@ -4,7 +4,6 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { ImportedVaultTooltip, VaultBadge } from '@shared/react-components'
 import { getVaultId } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { useVaultImportedListSrcs } from '@hooks/useVaultImportedListSrcs'
@@ -16,8 +15,6 @@ interface VaultPageHeaderProps {
 
 export const VaultPageHeader = (props: VaultPageHeaderProps) => {
   const { vault, className } = props
-
-  const t_tooltips = useTranslations('Tooltips')
 
   const { vaults } = useSelectedVaults()
 
@@ -50,7 +47,7 @@ export const VaultPageHeader = (props: VaultPageHeaderProps) => {
               <ImportedVaultTooltip
                 vaultLists={importedSrcs}
                 placement='bottom'
-                intl={t_tooltips('importedVault')}
+                intl={'This vault is from the following imported list(s):'}
               />
             )}
           </div>
@@ -61,15 +58,13 @@ export const VaultPageHeader = (props: VaultPageHeaderProps) => {
 }
 
 const BackButton = () => {
-  const t = useTranslations('Common')
-
   return (
     <Link
       href='/vaults'
       className='absolute left-0 flex items-center gap-2 text-pt-purple-100 cursor-pointer'
     >
       <ArrowLeftIcon className='h-6 w-6 md:h-4 md:w-4' />
-      <span className='hidden text-xs font-medium md:block'>{t('back')}</span>
+      <span className='hidden text-xs font-medium md:block'>Back</span>
     </Link>
   )
 }

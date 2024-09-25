@@ -6,7 +6,6 @@ import {
 } from '@generationsoftware/hyperstructure-react-hooks'
 import { Spinner } from '@shared/ui'
 import { formatNumberForDisplay } from '@shared/utilities'
-import { useTranslations } from 'next-intl'
 import { Address } from 'viem'
 import { useAccount } from 'wagmi'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
@@ -18,8 +17,6 @@ interface AccountVaultDelegationOddsProps {
 
 export const AccountVaultDelegationOdds = (props: AccountVaultDelegationOddsProps) => {
   const { vault, address } = props
-
-  const t = useTranslations('Account')
 
   const { address: _userAddress } = useAccount()
   const userAddress = address ?? _userAddress
@@ -56,11 +53,5 @@ export const AccountVaultDelegationOdds = (props: AccountVaultDelegationOddsProp
     return <>?</>
   }
 
-  return (
-    <>
-      {t('oneInXChance', {
-        number: formatNumberForDisplay(prizeOdds.oneInX, { maximumSignificantDigits: 3 })
-      })}
-    </>
-  )
+  return <>1 in {formatNumberForDisplay(prizeOdds.oneInX, { maximumSignificantDigits: 3 })}</>
 }

@@ -6,7 +6,6 @@ import { useAddRecentTransaction, useChainModal, useConnectModal } from '@rainbo
 import { TokenAmount, TransactionButton } from '@shared/react-components'
 import { getSecondsSinceEpoch } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import { Address, formatUnits } from 'viem'
 import { useAccount } from 'wagmi'
@@ -52,10 +51,6 @@ interface ClaimRewardsButtonProps {
 
 const ClaimRewardsButton = (props: ClaimRewardsButtonProps) => {
   const { chainId, promotionId, userAddress, fullSized, className } = props
-
-  const t_common = useTranslations('Common')
-  const t_account = useTranslations('Account')
-  const t_txs = useTranslations('TxModals')
 
   const { openConnectModal } = useConnectModal()
   const { openChainModal } = useChainModal()
@@ -112,15 +107,15 @@ const ClaimRewardsButton = (props: ClaimRewardsButtonProps) => {
             isTxSuccess={isSuccess}
             write={sendClaimRewardsTransaction}
             txHash={txHash}
-            txDescription={t_account('claimRewardsTx', { symbol: token.symbol })}
+            txDescription={`${token.symbol} Rewards Claim`}
             openConnectModal={openConnectModal}
             openChainModal={openChainModal}
             addRecentTransaction={addRecentTransaction}
-            intl={{ base: t_txs, common: t_common }}
+            intl={{ base: undefined, common: undefined }}
             fullSized={fullSized}
             className={classNames('min-w-[6rem]', className)}
           >
-            {t_common('claim')}{' '}
+            Claim{' '}
             <TokenAmount
               token={{ chainId, address: promotion.token, amount: claimableAmount }}
               hideZeroes={shiftedClaimableAmount > 1e3 ? true : undefined}
@@ -128,9 +123,7 @@ const ClaimRewardsButton = (props: ClaimRewardsButtonProps) => {
             />
           </TransactionButton>
           {isClaimWarningDisplayed && (
-            <span className='mt-1 mr-1 text-right text-pt-warning-light'>
-              {t_account('claimSoon')}
-            </span>
+            <span className='mt-1 mr-1 text-right text-pt-warning-light'>Claim soon!</span>
           )}
         </div>
       )

@@ -76,18 +76,17 @@ export const VaultsDisplay = () => {
 }
 
 const NoSelectedVaultListsCard = () => {
-  const t_vaults = useTranslations('Vaults')
-  const t_error = useTranslations('Error')
-
   const { setIsModalOpen: setIsSettingsModalOpen } = useIsModalOpen(MODAL_KEYS.settings)
 
   return (
     <div className='flex flex-col items-center text-center p-6 bg-pt-transparent rounded-lg md:min-w-[480px]'>
       <DocumentSVG className='w-12 h-auto' />
-      <span className='text-xl font-semibold py-2 text-pt-purple-400'>{t_error('oops')}</span>
-      <span className='text-pt-purple-100'>{t_error('noVaultListsEnabled')}</span>
+      <span className='text-xl font-semibold py-2 text-pt-purple-400'>Oops!</span>
+      <span className='text-pt-purple-100'>
+        It looks like you don't have any valid vault lists enabled.
+      </span>
       <Button onClick={() => setIsSettingsModalOpen(true)} color='transparent' className='mt-6'>
-        {t_vaults('manageVaultLists')}
+        Manage Vault Lists
       </Button>
     </div>
   )

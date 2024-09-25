@@ -8,7 +8,6 @@ import {
   SECONDS_PER_DAY
 } from '@shared/utilities'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import { TWAB_REWARDS_SETTINGS } from '@constants/config'
 import { VaultBonusRewards } from './VaultBonusRewards'
@@ -23,10 +22,6 @@ interface VaultPageBonusRewardsSectionProps {
 
 export const VaultPageBonusRewardsSection = (props: VaultPageBonusRewardsSectionProps) => {
   const { vault, prizePool, maxNumDraws, className } = props
-
-  const t_common = useTranslations('Common')
-  const t_vault = useTranslations('Vault')
-  const t_freq = useTranslations('Frequency')
 
   const tokenAddresses = TWAB_REWARDS_SETTINGS[vault.chainId]?.tokenAddresses
   const fromBlock = TWAB_REWARDS_SETTINGS[vault.chainId]?.fromBlock
@@ -54,7 +49,7 @@ export const VaultPageBonusRewardsSection = (props: VaultPageBonusRewardsSection
   const formattedFrequency = useMemo(() => {
     const minDuration = Math.min(...validPromotions.map((p) => p.epochDuration))
     const frequency = formatDailyCountToFrequency(SECONDS_PER_DAY / minDuration)
-    return getPrizeTextFromFrequency(frequency, 'everyXdays', t_freq)
+    return getPrizeTextFromFrequency(frequency, 'everyXdays', undefined)
   }, [validPromotions])
 
   const formattedNextClaim = useMemo(() => {
@@ -68,29 +63,29 @@ export const VaultPageBonusRewardsSection = (props: VaultPageBonusRewardsSection
       .filter((t) => !!t)
 
     const nextClaimTimestamp = Math.min(...firstClaimTimestamps)
-    return getCountdownTextFromTimestamp(nextClaimTimestamp, t_freq)
+    return getCountdownTextFromTimestamp(nextClaimTimestamp, undefined)
   }, [validPromotions, currentTimestamp])
 
   return (
     <VaultPageCard
-      title={t_vault('headers.bonusRewards')}
+      title={'Bonus rewards'}
       className='!p-0'
       wrapperClassName={classNames('bg-transparent shadow-none', className)}
     >
       <VaultBonusRewards
         vault={vault}
-        append={<span className='text-pt-purple-300'>{t_common('apr')}</span>}
+        append={<span className='text-pt-purple-300'>APR</span>}
         showTokens={true}
         className='flex-col text-sm md:text-base'
         valueClassName='text-2xl text-pt-purple-100 font-semibold md:text-3xl'
         tokensClassName='text-pt-purple-300'
       />
       <div className='flex items-center gap-2 text-sm md:text-base'>
-        <span className='text-pt-purple-300'>{t_common('distribution')}:</span>
+        <span className='text-pt-purple-300'>Distribution:</span>
         <span className='text-pt-purple-100'>{formattedFrequency}</span>
       </div>
       <div className='flex items-center gap-2 text-sm md:text-base'>
-        <span className='text-pt-purple-300'>{t_common('nextClaim')}:</span>
+        <span className='text-pt-purple-300'>Next claim:</span>
         <span className='text-pt-purple-100'>{formattedNextClaim}</span>
       </div>
     </VaultPageCard>

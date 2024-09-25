@@ -7,7 +7,6 @@ import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { MODAL_KEYS, useIsModalOpen } from '@shared/generic-react-hooks'
 import { Button } from '@shared/ui'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { Address } from 'viem'
@@ -91,14 +90,12 @@ const NoWalletCard = (props: { className?: string }) => {
 const NoDepositsCard = (props: { className?: string }) => {
   const { className } = props
 
-  const t = useTranslations('Account')
-
   return (
     <div className={classNames('w-full rounded-lg lg:p-4 lg:bg-pt-bg-purple', className)}>
       <div className='flex flex-col w-full gap-2 items-center justify-center p-3 text-sm bg-pt-transparent rounded-lg lg:flex-row lg:gap-3 lg:text-lg lg:font-medium'>
-        <span className='text-pt-purple-100'>{t('noPrizeTokens')}</span>
+        <span className='text-pt-purple-100'>You don't have any prize tokens.</span>
         <Link href='/vaults' className='text-pt-teal'>
-          {t('depositNow')}
+          Deposit now.
         </Link>
       </div>
     </div>

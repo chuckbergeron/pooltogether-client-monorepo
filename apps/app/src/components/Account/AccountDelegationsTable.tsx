@@ -6,7 +6,6 @@ import {
 import { VaultBadge, WinChanceTooltip } from '@shared/react-components'
 import { Table, TableProps } from '@shared/ui'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { Address } from 'viem'
@@ -21,10 +20,6 @@ interface AccountDelegationsTableProps extends Omit<TableProps, 'data' | 'keyPre
 
 export const AccountDelegationsTable = (props: AccountDelegationsTableProps) => {
   const { address, className, innerClassName, headerClassName, rowClassName, ...rest } = props
-
-  const t_vaults = useTranslations('Vaults')
-  const t_vault = useTranslations('Vault')
-  const t_tooltips = useTranslations('Tooltips')
 
   const { address: _userAddress } = useAccount()
   const userAddress = address ?? _userAddress
@@ -49,19 +44,22 @@ export const AccountDelegationsTable = (props: AccountDelegationsTableProps) => 
 
   const tableHeaders = useMemo(() => {
     const headers: TableProps['data']['headers'] = {
-      token: { content: t_vaults('headers.prizeVault') },
+      token: { content: 'Prize Vault' },
       odds: {
         content: isExternalUser ? (
-          t_vault('headers.winChance')
+          'Win Chance'
         ) : (
           <span className='flex gap-1 items-center'>
-            {t_vault('headers.yourWinChance')}
-            <WinChanceTooltip intl={{ text: t_tooltips('winChance') }} className='text-xs' />
+            Your Win Chance
+            <WinChanceTooltip
+              intl={{ text: 'Your chance to win a prize in any given draw' }}
+              className='text-xs'
+            />
           </span>
         ),
         position: 'center'
       },
-      amount: { content: t_vault('headers.delegatedAmount'), position: 'center' }
+      amount: { content: 'Delegated Amount', position: 'center' }
     }
     if (!isExternalUser) {
       headers.null = { content: '' }

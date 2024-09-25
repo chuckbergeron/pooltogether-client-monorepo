@@ -1,7 +1,6 @@
 import { Vault } from '@generationsoftware/hyperstructure-client-js'
 import { usePublicClientsByChain } from '@generationsoftware/hyperstructure-react-hooks'
 import { VaultBadge } from '@shared/react-components'
-import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { Address } from 'viem'
@@ -21,8 +20,6 @@ interface AccountPromotionCardProps {
 
 export const AccountPromotionCard = (props: AccountPromotionCardProps) => {
   const { chainId, promotionId, address } = props
-
-  const t = useTranslations('Account.bonusRewardHeaders')
 
   const publicClients = usePublicClientsByChain()
 
@@ -62,12 +59,12 @@ export const AccountPromotionCard = (props: AccountPromotionCardProps) => {
         </div>
         <div className='w-full flex flex-col gap-1 px-3'>
           <div className='flex items-center justify-between'>
-            <span className='text-sm text-pt-purple-200'>{t('rewardToken')}</span>
+            <span className='text-sm text-pt-purple-200'>Reward token</span>
             <AccountPromotionToken chainId={chainId} tokenAddress={promotionInfo.token} />
           </div>
           {!!claimed && (
             <div className='flex items-center justify-between'>
-              <span className='text-sm text-pt-purple-200'>{t('rewardsClaimed')}</span>
+              <span className='text-sm text-pt-purple-200'>Rewards Claimed</span>
               <AccountPromotionClaimedRewards
                 chainId={chainId}
                 promotionId={promotionId}
@@ -78,7 +75,7 @@ export const AccountPromotionCard = (props: AccountPromotionCardProps) => {
           )}
           {!!claimable && (
             <div className='flex items-center justify-between'>
-              <span className='text-sm text-pt-purple-200'>{t('rewardsClaimable')}</span>
+              <span className='text-sm text-pt-purple-200'>Rewards Claimable</span>
               <AccountPromotionClaimableRewards
                 chainId={chainId}
                 promotionId={promotionId}

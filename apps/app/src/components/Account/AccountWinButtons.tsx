@@ -2,7 +2,6 @@ import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
 import { Win } from '@shared/types'
 import { Button } from '@shared/ui'
 import { getBlockExplorerName, getBlockExplorerUrl } from '@shared/utilities'
-import { useTranslations } from 'next-intl'
 
 interface AccountWinButtonsProps {
   win: Win
@@ -10,8 +9,6 @@ interface AccountWinButtonsProps {
 
 export const AccountWinButtons = (props: AccountWinButtonsProps) => {
   const { win } = props
-
-  const t = useTranslations('Common')
 
   return (
     <div className='flex justify-end gap-2'>
@@ -21,7 +18,7 @@ export const AccountWinButtons = (props: AccountWinButtonsProps) => {
         color='transparent'
       >
         <span className='inline-flex items-center gap-1 text-pt-purple-100'>
-          {t('viewOn', { name: getBlockExplorerName(win.chainId) })}
+          View on {getBlockExplorerName(win.chainId)}
           <ArrowTopRightOnSquareIcon className='h-5 w-5' />
         </span>
       </Button>

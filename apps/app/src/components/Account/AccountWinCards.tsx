@@ -1,7 +1,6 @@
 import { PrizePool } from '@generationsoftware/hyperstructure-client-js'
 import { Win } from '@shared/types'
 import classNames from 'classnames'
-import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { AccountWinCard } from './AccountWinCard'
 
@@ -13,8 +12,6 @@ interface AccountWinCardsProps {
 
 export const AccountWinCards = (props: AccountWinCardsProps) => {
   const { wins, prizePools, className } = props
-
-  const t = useTranslations('Common')
 
   const baseNumWins = 10
   const [numWins, setNumWins] = useState<number>(baseNumWins)
@@ -35,7 +32,7 @@ export const AccountWinCards = (props: AccountWinCardsProps) => {
           className='w-full flex justify-center text-pt-purple-300 cursor-pointer'
           onClick={() => setNumWins(numWins + baseNumWins)}
         >
-          {t('showMore')}
+          Show more
         </span>
       )}
     </div>
