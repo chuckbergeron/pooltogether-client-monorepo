@@ -70,6 +70,7 @@ export const SettingsModal = (props: SettingsModalProps) => {
   if (isModalOpen) {
     return (
       <Modal
+        headerClassName='pt-1'
         headerContent={
           view !== 'menu' ? (
             <ArrowLeftIcon

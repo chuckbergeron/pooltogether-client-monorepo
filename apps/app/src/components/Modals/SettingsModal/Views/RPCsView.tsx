@@ -22,9 +22,12 @@ export const RPCsView = (props: RPCsViewProps) => {
     <div className='flex flex-col gap-4 md:gap-8'>
       <div className='flex flex-col items-center gap-2 text-center'>
         <span className='text-lg font-semibold md:text-xl'>Set Custom RPCs</span>
-        <span className='text-sm text-pt-purple-50 md:text-base'>
-          Route the app's onchain queries through RPCs of your choosing. These are stored locally on
-          your browser.
+        <span className='text-sm text-red-300 md:text-base'>
+          This version of Cabana will have trouble loading Vaults &amp; Account without using your
+          own providers.
+        </span>
+        <span className='text-sm text-pt-purple-100 md:text-base'>
+          We recommend using Infura or Alchemy.
         </span>
       </div>
 
@@ -47,6 +50,12 @@ export const RPCsView = (props: RPCsViewProps) => {
           <span>Refresh the page to see changes</span>
         </span>
       )}
+
+      <div className='flex flex-col items-center gap-2 text-center'>
+        <span className='text-sm text-pt-purple-400 md:text-base'>
+          These are stored locally on your browser.
+        </span>
+      </div>
     </div>
   )
 }

@@ -16,8 +16,8 @@ export const createCustomWagmiConfig = (
   networks: NETWORK[],
   options?: { useCustomRPCs?: boolean }
 ) => {
-  const supportedNetworks = Object.values(WAGMI_CHAINS).filter(
-    (chain) => networks.includes(chain.id) && !!RPC_URLS[chain.id]
+  const supportedNetworks = Object.values(WAGMI_CHAINS).filter((chain) =>
+    networks.includes(chain.id)
   ) as any as [Chain, ...Chain[]]
 
   return createConfig({
@@ -116,7 +116,6 @@ const getNetworkTransports = (
 
   return transports
 }
-
 
 /**
  * Tracks deposit and its respective wallet ID on the wallet stats API

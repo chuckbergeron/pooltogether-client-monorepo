@@ -1,4 +1,3 @@
-import { useSelectedLanguage } from '@shared/generic-react-hooks'
 import { Flowbite, Toaster } from '@shared/ui'
 import { AppProps } from 'next/app'
 import { ReactNode, useEffect, useState } from 'react'
@@ -9,20 +8,7 @@ import { VaultFrame } from './Frames/VaultFrame'
 
 export const AppContainer = (props: AppProps & CustomAppProps) => {
   const { Component, pageProps, serverProps, router } = props
-  const { pathname, query, asPath, locale } = router
-
-  const [isReady, setIsReady] = useState<boolean>(false)
-
-  useSelectedLanguage({
-    onLanguageChange: (newLanguage) => {
-      router.push({ pathname, query }, asPath, { locale: newLanguage })
-
-      // Tiny delay to avoid flickering on differing language selection to locale default
-      setTimeout(() => {
-        setIsReady(true)
-      }, 100)
-    }
-  })
+  const { pathname } = router
 
   useEffect(() => {
     if ('serviceWorker' in navigator) {
@@ -48,7 +34,7 @@ export const AppContainer = (props: AppProps & CustomAppProps) => {
       <Flowbite>
         <Toaster expand={false} />
         <div id='modal-root' />
-        {isReady && <Component {...pageProps} />}
+        <Component {...pageProps} />
       </Flowbite>
     </>
   )

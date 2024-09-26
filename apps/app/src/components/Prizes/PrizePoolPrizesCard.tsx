@@ -30,7 +30,6 @@ export const PrizePoolPrizesCard = (props: PrizePoolPrizesCardProps) => {
     frequencyClassName
   } = props
 
-
   const { data: allPrizeInfo, isFetched: isFetchedAllPrizeInfo } = useAllPrizeInfo([prizePool])
   const { data: tokenData, isFetched: isFetchedTokenData } = usePrizeTokenData(prizePool)
   const { data: drawPeriod } = useDrawPeriod(prizePool)
@@ -60,8 +59,8 @@ export const PrizePoolPrizesCard = (props: PrizePoolPrizesCardProps) => {
       {isFetchedAllPrizeInfo && isFetchedTokenData && !!tokenData && !!drawPeriod ? (
         <div className='w-full flex flex-col gap-3'>
           {Object.values(allPrizeInfo)[0]
-            .slice(0, -2)
-            .map((prize, i) => {
+            ?.slice(0, -2)
+            ?.map((prize, i) => {
               const frequency = formatDailyCountToFrequency(prize.dailyFrequency, {
                 minTimespan: drawPeriod
               })

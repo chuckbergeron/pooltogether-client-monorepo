@@ -1,4 +1,5 @@
 import { MODAL_KEYS, useIsModalOpen } from '@shared/generic-react-hooks'
+import { useCustomRPCs } from '@shared/generic-react-hooks'
 import { SocialIcon } from '@shared/ui'
 import { LINKS } from '@shared/utilities'
 import classNames from 'classnames'
@@ -20,9 +21,18 @@ export const Footer = () => {
 
   const { setIsModalOpen: setIsCaptchaModalOpen } = useIsModalOpen(MODAL_KEYS.captcha)
 
+  const { customRPCs } = useCustomRPCs()
+
   // NOTE: This is necessary due to hydration errors otherwise.
   const [isBrowser, setIsBrowser] = useState(false)
   useEffect(() => setIsBrowser(true), [])
+
+  useEffect(() => {
+    if (Object.keys(customRPCs).length === 0) {
+      setSettingsModalView('customRPCs')
+      setIsSettingsModalOpen(true)
+    }
+  }, [])
 
   const footerItems: FooterItem[] = [
     {
@@ -72,6 +82,13 @@ export const Footer = () => {
           content: 'Change currency',
           onClick: () => {
             setSettingsModalView('currency')
+            setIsSettingsModalOpen(true)
+          }
+        },
+        {
+          content: 'Set Custom RPCs',
+          onClick: () => {
+            setSettingsModalView('customRPCs')
             setIsSettingsModalOpen(true)
           }
         }
