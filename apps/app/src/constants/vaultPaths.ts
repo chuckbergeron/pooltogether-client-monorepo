@@ -1,5 +1,5 @@
 type VaultPath = {
-  chainId: 'string'
+  chainId: string
   vaultAddress: string
 }
 
