@@ -53,7 +53,6 @@ export const DepositModal = (props: DepositModalProps) => {
     onSuccessfulDepositWithZap
   } = props
 
-
   const { connector } = useAccount()
 
   const addRecentTransaction = useAddRecentTransaction()
@@ -191,16 +190,19 @@ const DepositDisclaimer = (props: DepositDisclaimerProps) => {
 
   return (
     <span className='text-xs text-pt-purple-100 px-6'>
-      By clicking "Confirm Deposit", you agree to Cabana's <a href={LINKS.termsOfService} target='_blank' className='text-pt-purple-300'>
+      By clicking "Confirm Deposit", you agree to Cabana's{' '}
+      <a href={LINKS.termsOfService} target='_blank' className='text-pt-purple-300'>
         Terms of Service
-      </a>. Click 
+      </a>
+      . Click{' '}
       <a
         href={`/vault/${vault.chainId}/${vault.address}`}
         target='_blank'
         className='text-pt-purple-300'
       >
         here
-      </a> to learn more about the vault you're depositing into.
+      </a>{' '}
+      to learn more about the vault you're depositing into.
     </span>
   )
 }

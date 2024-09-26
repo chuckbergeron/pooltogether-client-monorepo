@@ -114,7 +114,7 @@ const RisksDisclaimer = (props: RisksDisclaimerProps) => {
       </div>
       <span className='text-xs lg:text-center lg:text-sm'>
         PoolTogether is a permissionless protocol. Prize vaults can be deployed by anyone. Make sure
-        you know what you are depositing into.
+        you know what you are depositing into.{' '}
         <a href={vaultHref} target='_blank' className='text-pt-purple-300'>
           Learn more about this prize vault.
         </a>

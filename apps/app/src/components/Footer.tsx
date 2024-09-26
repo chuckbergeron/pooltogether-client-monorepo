@@ -66,19 +66,12 @@ export const Footer = () => {
       ]
     },
     {
-      title: "Settings",
+      title: 'Settings',
       content: [
         {
-          content: 'Chance currency',
+          content: 'Change currency',
           onClick: () => {
             setSettingsModalView('currency')
-            setIsSettingsModalOpen(true)
-          }
-        },
-        {
-          content: 'Change language',
-          onClick: () => {
-            setSettingsModalView('language')
             setIsSettingsModalOpen(true)
           }
         }

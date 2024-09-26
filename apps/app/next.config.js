@@ -1,5 +1,8 @@
 module.exports = {
   output: 'export',
+  images: {
+    unoptimized: true
+  },
   reactStrictMode: true,
   transpilePackages: [
     'file:../../shared/generic-react-hooks',
