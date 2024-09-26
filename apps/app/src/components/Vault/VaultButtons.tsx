@@ -3,10 +3,8 @@ import { useUserVaultShareBalance } from '@generationsoftware/hyperstructure-rea
 import { GiftIcon } from '@heroicons/react/24/solid'
 import { DelegateButton, DepositButton, WithdrawButton } from '@shared/react-components'
 import classNames from 'classnames'
-import * as fathom from 'fathom-client'
 import { Address } from 'viem'
 import { useAccount } from 'wagmi'
-import { FATHOM_EVENTS } from '@constants/config'
 
 interface VaultButtonsProps {
   vault: Vault
@@ -32,34 +30,22 @@ export const VaultButtons = (props: VaultButtonsProps) => {
   return (
     <div className={classNames('flex items-center gap-2', className)}>
       {isDelegateButtonShown && (
-        <DelegateButton
-          vault={vault}
-          extraOnClick={() => fathom.trackEvent(FATHOM_EVENTS.openedDelegateModal)}
-          color='transparent'
-          className='w-full'
-        >
+        <DelegateButton vault={vault} color='transparent' className='w-full'>
           <GiftIcon className='w-4 h-4 my-0.5' />
         </DelegateButton>
       )}
       {isWithdrawButtonShown && (
-        <WithdrawButton
-          vault={vault}
-          extraOnClick={() => fathom.trackEvent(FATHOM_EVENTS.openedWithdrawModal)}
-          fullSized={fullSized}
-          color='transparent'
-        >
+        <WithdrawButton vault={vault} fullSized={fullSized} color='transparent'>
           Withdraw
         </WithdrawButton>
       )}
       <DepositButton
         vault={vault}
-        extraOnClick={() => fathom.trackEvent(FATHOM_EVENTS.openedDepositModal)}
         fullSized={fullSized}
         // intl={{ base: undefined, tooltips: undefined }}
       />
       {/* <DepositButton
         vault={vault}
-        extraOnClick={() => fathom.trackEvent(FATHOM_EVENTS.openedDepositModal)}
         fullSized={fullSized}
         intl={{ base: undefined, tooltips: undefined }}
       /> */}

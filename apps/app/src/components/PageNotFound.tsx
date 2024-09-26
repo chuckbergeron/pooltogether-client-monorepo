@@ -20,7 +20,7 @@ export const PageNotFound = (props: PageNotFoundProps) => {
       <h2 className='mb-8 font-bold text-3xl'>We couldn't find the page you're looking for.</h2>
       <Link href='/' passHref={true}>
         <Button>
-          <span className='text-xl'>Return to the Pool}</span>
+          <span className='text-xl'>Return to the Pool</span>
         </Button>
       </Link>
     </div>
